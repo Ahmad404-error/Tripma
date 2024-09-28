@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User 
 
 # Create your models here.
 class Airport(models.Model):
@@ -8,6 +9,7 @@ class Airport(models.Model):
     country = models.CharField(max_length=100)
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
+
 
 
 class Passenger(models.Model):
@@ -22,6 +24,7 @@ class Passenger(models.Model):
     # email = models.EmailField()  # Электронная почта
     passport_number = models.CharField(max_length=20)  # Номер паспорта
     birthday = models.DateField()  # Дата рождения
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

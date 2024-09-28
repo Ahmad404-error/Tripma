@@ -5,7 +5,7 @@ from django.contrib.auth import login
 from .models import Flight
 from django.db.models import Q
 from django.http import JsonResponse
-from .models import Country
+from .models import Country, Passenger
 
 
 def index(request):
@@ -51,17 +51,23 @@ def flight_search(request):
     return render(request, 'main/flight_search.html', {'flights': flights})
 
 def account(request):
-    if request.method == 'POST':
-        form = PassengerForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('home')  # Перенаправляем на страницу успеха
+    try:
+        passenger = Passenger.objects.get(user=request.user)
+        return render(request, 'main/account_details.html', {'passenger': passenger})
+    except:
+        if request.method == 'POST':
+            form = PassengerForm(request.POST)
+            if form.is_valid():
+                passenger = form.save(commit=False)
+                passenger.user = request.user
+                passenger.save()
+                return redirect('home')  # Перенаправляем на страницу успеха
+            else:
+                print(form.errors)
         else:
-            print(form.errors)
-    else:
-        form = PassengerForm()
+            form = PassengerForm()
 
-    return render(request, 'main/account.html', {'form': form})
+        return render(request, 'main/account.html', {'form': form})
 
 def country_autocomplete(request):
     if 'term' in request.GET:
