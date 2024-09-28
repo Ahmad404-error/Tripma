@@ -1,0 +1,64 @@
+{%extends 'main/layout.html' %}
+{%load static%}
+
+{%block title%}Tripma{%endblock%}
+
+{%block content%}
+    <div class="account_title">Account Details</div>
+    <div class="account">
+        <div class="account_content">
+            <form class="account_form" method="POST" action="{%url 'account'%}">
+                {% csrf_token %}
+                <div class="account_form_block">
+                    <div class="account_form_title">
+                        <p class="account_form_title_txt">Load Data</p>
+                    </div>
+                    <div class="account_form_content_frst">
+                        <div class="account_form_group">
+                            <input type="text" id="citizenship" class="citizenship" name="citizenship" placeholder="Citizenship" required />
+                            <div id="citizenship_suggestions" class="citizenship_suggestions"></div>
+                            <script src="{%static 'main/js/account_filter.js'%}"></script>
+                        </div>
+                        <div class="account_form_group">
+                            <select class="account_form_group_chs" name="gender" required>
+                                <option value="" disabled selected>Gender</option>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                                <!-- <option value="other">Other</option> -->
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="account_form_block">
+                    <div class="account_form_title">
+                        <p class="account_form_title_txt">Passport Data</p>
+                    </div>
+                    <div class="account_form_content_scnd">
+                        <div class="account_form_content_scnd_name">
+                            <div class="account_form_group">
+                                <input type="text" id="first_name" name="first_name" placeholder="First Name" required />
+                            </div>
+                            <div class="account_form_group">
+                                <input type="text" id="last_name" name="last_name" placeholder="Last Name" required />
+                            </div>
+                        </div>
+                        <div class="account_form_content_scnd_date">
+                            <div class="account_form_group">
+                                <input type="text" id="passport_number" name="passport_number" placeholder="Passport Number" required />
+                            </div>
+                            <div class="account_form_group">
+                                <input type="date" id="birthday" name="birthday" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="account_form_btn">
+                    <button class="account_form_btn_save btn" type="submit">Save</button>
+                    <a class="account_form_btn_back btn" href="{%url 'home'%}">Back to Home</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{%endblock%}

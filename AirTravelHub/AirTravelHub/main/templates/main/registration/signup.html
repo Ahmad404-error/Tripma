@@ -1,0 +1,12 @@
+{%extends 'main/layout.html'%}
+
+{%block content%} 
+<div class="modal">
+<form method="post" action="{% url 'signup' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Зарегистрироваться</button>
+</form>
+</div>
+
+{%endblock%}

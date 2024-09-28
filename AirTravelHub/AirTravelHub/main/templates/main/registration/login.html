@@ -1,0 +1,42 @@
+{%extends 'main/layout.html' %}
+{%load static%}
+
+{%block title%}Login{%endblock%}
+
+{%block content%}
+<div class="login_content" id="login_content">
+    <div class="login_center" id="login_center">
+        <div class="login_form">
+            <div class="login_form_txt">
+                <div class="login_form_title">
+                    <div class="login_form_title_txt">Login for Tripma</div>
+                </div>
+                <div class="login_form_subtitle">
+                    Tripma is totally free to use. Login using your email address or phone number below to get started.
+                </div>
+            </div>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="login_form_input">
+                    <input type="text" name="username" id="username" placeholder="Username:" required>
+        
+                    <input type="password" name="password" id="password" placeholder="Password:" required>
+                </div>
+                <button type="submit" class="login_form_btn btn">Login</button>
+            </form>
+        </div>
+    </div> 
+</div>
+{% if form.errors %}
+    <div>
+        <p>There was an error:</p>
+        <ul>
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+{%endblock%}
