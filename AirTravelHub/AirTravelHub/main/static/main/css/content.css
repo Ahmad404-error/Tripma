@@ -149,14 +149,18 @@ select{
     padding: 8px;
     border-radius: 5px;
     display: flex;
+    align-items: center;
+    gap: 5px;
     min-width: 90%;
 }
 
 .navigation_menu_obj_icon_account_block a{
+    align-items: center;
     color: rgba(124, 141, 176, 1);
     transition-duration: 250ms;
     font-size: 18px;
     padding: 8px;
+    gap: 5px;
     border-radius: 5px;
     display: flex;
     min-width: 90%;

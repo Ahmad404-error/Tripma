@@ -77,7 +77,7 @@
                             </form> -->
                             <div class="navigation_menu_obj_icon" id="navigation_menu_obj_icon">
                                 <!-- <a href="{%url 'account'%}" class=""> -->
-                                <img src="{%static 'main/img/account.svg'%}">
+                                <img src="{%static 'main/img/menu.svg'%}">
                                 <!-- </a> -->
                             </div>
                             <script>
@@ -101,10 +101,33 @@
                                         newDiv.classList.add("navigation_menu_obj_icon_account_block");
 
                                         // Создаем ссылку для аккаунта
+                                        // var innerInfoAcc = document.createElement('a');
+                                        // innerInfoAcc.href = "/account/";  // URL для аккаунта
+                                        
+                                        // newDiv.appendChild(innerInfoAcc);
+
+                                        // var innerIconAcc = document.createElement('img');
+                                        // innerIconAcc.textContent = "Account";
+                                        // innerIconAcc.src = "{% static 'main/img/account.svg' %}";
+                                        // innerInfoAcc.appendChild(innerIconAcc);
+
                                         var innerInfoAcc = document.createElement('a');
-                                        innerInfoAcc.href = "/account/";  // URL для аккаунта
-                                        innerInfoAcc.textContent = "Account";
+                                        innerInfoAcc.href = "{% url 'account' %}";  // Ссылка на страницу аккаунта
+
+                                        // Создаем контейнер для иконки и текста
+                                        var innerIconAcc = document.createElement('img');
+                                        innerIconAcc.src = "{% static 'main/img/person.svg' %}";  // Указываем путь к иконке
+
+                                        // Добавляем иконку в ссылку
+                                        innerInfoAcc.appendChild(innerIconAcc);
+
+                                        // Добавляем текст рядом с иконкой
+                                        var accountText = document.createTextNode(" Account");
+                                        innerInfoAcc.appendChild(accountText);
+
+                                        // Добавляем всю ссылку в родительский элемент
                                         newDiv.appendChild(innerInfoAcc);
+
 
                                         // Создаем форму для Logout
                                         var innerLogout = document.createElement('form');
@@ -118,6 +141,10 @@
                                         csrfToken.name = 'csrfmiddlewaretoken';
                                         csrfToken.value = "{{ csrf_token }}";  // CSRF токен
                                         innerLogout.appendChild(csrfToken);
+
+                                        var innerIconLogout = document.createElement('img');
+                                        innerIconLogout.src = "{% static 'main/img/logout.svg' %}"
+                                        innerLogout.appendChild(innerIconLogout);
 
                                         // Создаем кнопку для Logout
                                         var innerLogoutBtn = document.createElement('button');
