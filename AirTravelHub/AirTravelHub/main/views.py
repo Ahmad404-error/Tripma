@@ -56,7 +56,6 @@ def index(request):
 
 def flight_search(request):
     flights = Flight.objects.all()
-
     # Получаем данные из GET-запроса
     departure_airport = request.GET.get('from')  # Аэропорт вылета
     arrival_airport = request.GET.get('to')  # Аэропорт прилета
@@ -65,13 +64,15 @@ def flight_search(request):
     if departure_airport:
         flights = flights.filter(
             Q(departure_airport__name__icontains=departure_airport) |
-            Q(departure_airport__iata_code__icontains=departure_airport)
+            Q(departure_airport__iata_code__icontains=departure_airport) |
+            Q(departure_airport__city__icontains=departure_airport)
         )
 
     if arrival_airport:
         flights = flights.filter(
             Q(arrival_airport__name__icontains=arrival_airport) |
-            Q(arrival_airport__iata_code__icontains=arrival_airport)
+            Q(arrival_airport__iata_code__icontains=arrival_airport) |
+            Q(arrival_airport__city__icontains=arrival_airport)
         )
 
     if departure_date:

@@ -10,6 +10,9 @@ class Airport(models.Model):
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
 
+    def __str__(self):
+        return f"{self.city}"
+
 
 class CustomUser(AbstractUser):
     # Добавляем related_name, чтобы избежать конфликта с моделью User по умолчанию
