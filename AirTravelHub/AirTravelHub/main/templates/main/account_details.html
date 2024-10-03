@@ -4,10 +4,33 @@
 {%block title%}Tripma{%endblock%}
 
 {%block content%}
-{{passenger.gender}}
-{{passenger.citizenship}}
-{{passenger.first_name}}
-{{passenger.last_name}}
-{{passenger.passport_number}}
-{{passenger.birthday}}
+    <div class="acc_det">
+        <div class="acc_det_form">
+            <div class="acc_det_title">
+                <p>Your Document</p>
+                <a class="close_model" id="close_model" href="{% url 'home' %}">
+                    <img src="{%static 'main/img/exit.svg'%}">
+                </a>
+            </div>
+            <div class="acc_det_info">
+                <div class="acc_det_info_citi acc_det_pole"><p>Citizenship</p>{{passenger.citizenship}}</div>
+                <div class="acc_det_info_gender acc_det_pole"><p>Gender</p>{{passenger.gender}}</div>
+            </div>
+            <div class="acc_det_doc_title">Passport Details</div>
+            <div class="acc_det_info">
+                <div class="acc_det_info_name acc_det_pole"><p>First Name</p>{{passenger.first_name}}</div>
+                <div class="acc_det_info_name acc_det_pole"><p>Last Name</p>{{passenger.last_name}}</div>
+                <div class="acc_det_info_birthday acc_det_pole"><p>Birthday</p>{{passenger.birthday}}</div>
+                <div class="acc_det_info_number acc_det_pole"><p>Passport Number</p>{{passenger.passport_number}}</div>
+            </div>
+            <div class="acc_det_btn">
+                <button class="acc_det_btn_save btn">
+                    Save
+                </button>
+                <button class="acc_det_btn_delete btn">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
 {%endblock%}

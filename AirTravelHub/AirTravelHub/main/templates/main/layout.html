@@ -71,13 +71,76 @@
                             <a href="{% url 'login' %}"><button class="navigation_menu_obj" id="openModal_login">Sign in</button></a>
                             <button class="navigation_menu_obj_btn btn" id="openModal">Sign up</button>
                             {%else%}
-                            <form method="POST" action="{% url 'logout' %}">
+                            <!-- <form method="POST" action="{% url 'logout' %}">
                                 {% csrf_token %}
                                 <button type="submit" class="navigation_menu_obj">Logout</button>
-                            </form>
-                            <a href="{%url 'account'%}" class="navigation_menu_obj_icon"><img src="{%static 'main/img/account.svg'%}"></a>
-                            {%endif%}
+                            </form> -->
+                            <div class="navigation_menu_obj_icon" id="navigation_menu_obj_icon">
+                                <!-- <a href="{%url 'account'%}" class=""> -->
+                                <img src="{%static 'main/img/account.svg'%}">
+                                <!-- </a> -->
+                            </div>
+                            <script>
+                                document.getElementById('navigation_menu_obj_icon').addEventListener('click', function (event) {
+                                    event.stopPropagation(); // Останавливаем всплытие события клика сразу
 
+                                    // Проверяем, существует ли уже блок с классом navigation_menu_obj_icon_account_block
+                                    var existingBlock = document.querySelector('.navigation_menu_obj_icon_account_block');
+                                    var existingWhat = document.querySelector('.navigation_menu_obj_btn_out'); 
+                                    if (existingWhat){
+                                        document.getElementById('navigation_menu_obj_btn_out').addEventListener('click', function (event){
+                                        }
+                                    )};
+
+                                    if (existingBlock) {
+                                        // Если блок уже есть, удаляем его
+                                        existingBlock.remove();
+                                    } else {
+                                        // Если блока нет, создаем его
+                                        var newDiv = document.createElement("div");
+                                        newDiv.classList.add("navigation_menu_obj_icon_account_block");
+
+                                        // Создаем ссылку для аккаунта
+                                        var innerInfoAcc = document.createElement('a');
+                                        innerInfoAcc.href = "/account/";  // URL для аккаунта
+                                        innerInfoAcc.textContent = "Account";
+                                        newDiv.appendChild(innerInfoAcc);
+
+                                        // Создаем форму для Logout
+                                        var innerLogout = document.createElement('form');
+                                        innerLogout.method = 'POST';
+                                        innerLogout.action = "/logout/";  // URL для выхода
+                                        newDiv.appendChild(innerLogout);
+
+                                        // Добавляем CSRF токен
+                                        var csrfToken = document.createElement('input');
+                                        csrfToken.type = 'hidden';
+                                        csrfToken.name = 'csrfmiddlewaretoken';
+                                        csrfToken.value = "{{ csrf_token }}";  // CSRF токен
+                                        innerLogout.appendChild(csrfToken);
+
+                                        // Создаем кнопку для Logout
+                                        var innerLogoutBtn = document.createElement('button');
+                                        innerLogoutBtn.textContent = 'Logout';
+                                        innerLogoutBtn.type = 'submit';
+                                        innerLogoutBtn.classList.add('navigation_menu_obj_btn_out');
+                                        innerLogout.appendChild(innerLogoutBtn);
+
+                                        // Добавляем весь блок в контейнер
+                                        var container = document.getElementById("navigation_menu_obj_icon");
+                                        container.appendChild(newDiv);
+
+                                        // Добавляем обработчик клика на документ только один раз
+                                        document.addEventListener('click', function (e) {
+                                            // Проверяем, клик произошел ли не по блоку и не по иконке
+                                            if (!newDiv.contains(e.target) && !container.contains(e.target)) {
+                                                newDiv.remove();  // Удаляем блок
+                                            }
+                                        }, { once: true });
+                                    }
+                                });
+                            </script>                      
+                            {%endif%}
                             <!-- <img src="{% static 'main/img/take_off.svg' %}"> -->
                         </div>
                     </div>
