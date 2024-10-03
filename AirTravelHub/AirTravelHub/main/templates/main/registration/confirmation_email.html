@@ -1,0 +1,17 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Подтверждение регистрации</title>
+</head>
+<body>
+    <p>Здравствуйте, {{ user.username }}!</p>
+    <p>Для завершения регистрации перейдите по следующей ссылке:</p>
+    <a href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}">Подтвердить регистрацию</a>
+
+    <p>Спасибо за регистрацию!</p>
+</body>
+</html> -->
+Здравствуйте, {{ user.username }}! Перейди по этой ссылке для регистрации
+http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+Хорошего полета нахуй!!!!

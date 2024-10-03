@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User, AbstractUser, Group, Permission
 
 # Create your models here.
 class Airport(models.Model):
@@ -9,6 +9,28 @@ class Airport(models.Model):
     country = models.CharField(max_length=100)
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
+
+
+class CustomUser(AbstractUser):
+    # Добавляем related_name, чтобы избежать конфликта с моделью User по умолчанию
+    is_active = models.BooleanField(default=False)  # Отключаем аккаунт до подтверждения
+    passport_number = models.CharField(max_length=10, verbose_name="Паспортные данные", help_text="Введите номер паспорта", default="huy")
+    groups = models.ManyToManyField(
+        Group,
+        related_name='customuser_set',  # Уникальное related_name для предотвращения конфликта
+        blank=True,
+        help_text='Группы, к которым принадлежит этот пользователь.',
+        verbose_name='группы',
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name='customuser_permissions_set',  # Уникальное related_name для предотвращения конфликта
+        blank=True,
+        help_text='Конкретные разрешения для этого пользователя.',
+        verbose_name='разрешения пользователя',
+    )
+    
+
 
 
 

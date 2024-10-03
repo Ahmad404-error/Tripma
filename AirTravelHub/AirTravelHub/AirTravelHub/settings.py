@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+import ssl
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-oq_il5-*088tx7pz6un(9p1ysaxv$)af-j5__rv9^t84rv^xow
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -133,3 +134,22 @@ LOGIN_REDIRECT_URL = '/'
 
 # Страница, на которую перенаправляется пользователь после выхода
 LOGOUT_REDIRECT_URL = '/'
+
+
+
+# Настройки для использования SMTP-сервера Gmail
+# settings.py
+TRUSTED_CSRF_HOSTS = ['127.0.0.1', 'localhost', 'https://449b-176-59-57-11.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://449b-176-59-57-11.ngrok-free.app']
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'TripmaAirTickets@gmail.com'  # ваш email
+EMAIL_HOST_PASSWORD = 'dfti jemo ares vfkt'  # пароль от вашего email
+DEFAULT_FROM_EMAIL = 'TripmaAirTickets@gmail.com'
+EMAIL_SSL_CONTEXT = ssl.create_default_context()
+EMAIL_SSL_CONTEXT.check_hostname = False
+EMAIL_SSL_CONTEXT.verify_mode = ssl.CERT_NONE
+# Для тестов на локальной машине
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

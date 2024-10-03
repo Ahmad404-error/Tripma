@@ -2,6 +2,10 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import Passenger, Airline, Flight, Airport, Ticket, FlightPrice, Country
+from .models import CustomUser
+
+admin.site.register(CustomUser)
+
 
 @admin.register(Passenger)
 class MyModelAdmin(admin.ModelAdmin):
@@ -34,3 +38,5 @@ class MyModelAdmin(admin.ModelAdmin):
 # @admin.register(FlightPrice)
 # class MyModelAdmin(admin.ModelAdmin):
 #     list_display = ('first_name', 'last_name')  # Определите, какие поля отображать в списке
+
+

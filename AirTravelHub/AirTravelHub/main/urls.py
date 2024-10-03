@@ -9,4 +9,5 @@ urlpatterns = [
     path('flight_search/', views.flight_search, name='flight_search'),
     path('document/', views.document, name='document'),
     path('autocomplete/country/', views.country_autocomplete, name='country_autocomplete'),
+    path('activate/<uidb64>/<token>/', views.activate_account, name='activate'),
 ]
