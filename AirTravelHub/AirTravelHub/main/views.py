@@ -50,7 +50,7 @@ def flight_search(request):
     
     return render(request, 'main/flight_search.html', {'flights': flights})
 
-def account(request):
+def document(request):
     try:
         passenger = Passenger.objects.get(user=request.user)
         return render(request, 'main/account_details.html', {'passenger': passenger})

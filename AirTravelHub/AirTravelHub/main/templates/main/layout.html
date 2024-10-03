@@ -71,14 +71,8 @@
                             <a href="{% url 'login' %}"><button class="navigation_menu_obj" id="openModal_login">Sign in</button></a>
                             <button class="navigation_menu_obj_btn btn" id="openModal">Sign up</button>
                             {%else%}
-                            <!-- <form method="POST" action="{% url 'logout' %}">
-                                {% csrf_token %}
-                                <button type="submit" class="navigation_menu_obj">Logout</button>
-                            </form> -->
                             <div class="navigation_menu_obj_icon" id="navigation_menu_obj_icon">
-                                <!-- <a href="{%url 'account'%}" class=""> -->
                                 <img src="{%static 'main/img/menu.svg'%}">
-                                <!-- </a> -->
                             </div>
                             <script>
                                 document.getElementById('navigation_menu_obj_icon').addEventListener('click', function (event) {
@@ -112,7 +106,7 @@
                                         // innerInfoAcc.appendChild(innerIconAcc);
 
                                         var innerInfoAcc = document.createElement('a');
-                                        innerInfoAcc.href = "{% url 'account' %}";  // Ссылка на страницу аккаунта
+                                        innerInfoAcc.href = "{% url 'document' %}";  // Ссылка на страницу аккаунта
 
                                         // Создаем контейнер для иконки и текста
                                         var innerIconAcc = document.createElement('img');
@@ -122,7 +116,7 @@
                                         innerInfoAcc.appendChild(innerIconAcc);
 
                                         // Добавляем текст рядом с иконкой
-                                        var accountText = document.createTextNode(" Account");
+                                        var accountText = document.createTextNode("Document");
                                         innerInfoAcc.appendChild(accountText);
 
                                         // Добавляем всю ссылку в родительский элемент
