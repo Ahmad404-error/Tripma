@@ -22,8 +22,8 @@
                         <div class="account_form_group">
                             <select class="account_form_group_chs" name="gender" required>
                                 <option value="" disabled selected>Gender</option>
-                                <option value="M">Male</option>
-                                <option value="F">Female</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
                                 <!-- <option value="other">Other</option> -->
                             </select>
                         </div>
@@ -47,8 +47,43 @@
                             <div class="account_form_group">
                                 <input type="text" id="passport_number" name="passport_number" placeholder="Passport Number" required />
                             </div>
-                            <div class="account_form_group">
-                                <input type="date" id="birthday" name="birthday" required />
+                            <div class="account_form_group_date">
+                                <img src="{% static 'main/img/calendar.svg' %}" id="calendar_icon">
+                                <input type="text" id="birthday" name="birthday" placeholder="Birthday (Y-m-d)" maxlength="10" required>
+                                <!-- Подключение Flatpickr через CDN -->
+                                <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                                <script>
+                                    const dateInput = document.getElementById('birthday');
+                                    // Функция для форматирования ввода даты вручную
+                                    dateInput.addEventListener('input', function (e) {
+                                        let value = e.target.value.replace(/\D/g, ''); // Удалить все нецифровые символы
+                                        let formattedValue = '';
+
+                                        if (value.length > 0) {
+                                            formattedValue += value.substring(0, 4); // Год
+                                            if (value.length > 4) {
+                                                formattedValue += '-' + value.substring(4, 6); // Месяц
+                                            }
+                                            if (value.length > 6) {
+                                                formattedValue += '-' + value.substring(6, 8); // День
+                                            }
+                                        }
+
+                                        e.target.value = formattedValue;
+                                    });
+
+                                    // Инициализация Flatpickr для поля ввода
+                                    const calendarIcon = document.getElementById('calendar_icon');
+                                    const flatpickrInstance = flatpickr(dateInput, {
+                                        dateFormat: "Y-m-d", // Формат даты
+                                        allowInput: true
+                                    });
+
+                                    // Открытие календаря при нажатии на иконку
+                                    calendarIcon.addEventListener('click', function() {
+                                        flatpickrInstance.open(); // Открытие календаря
+                                    });
+                                </script>
                             </div>
                         </div>
                     </div>

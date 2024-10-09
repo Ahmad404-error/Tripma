@@ -4,7 +4,7 @@
 {%block title%}Tripma{%endblock%}
 
 {%block content%}
-    <div class="acc_det">
+<!-- <div class="acc_det">
         <div class="acc_det_form">
             <div class="acc_det_title">
                 <p>Your Document</p>
@@ -32,5 +32,96 @@
                 </button>
             </div>
         </div>
+    </div> -->    
+
+    <div class="acc_det">
+        <form class="acc_det_form" method="POST" action="{%url 'document_redact'%}">
+            {% csrf_token %}
+            <div class="acc_det_title">
+                <p>Your Document</p>
+                <a class="close_model" id="close_model" href="{% url 'home' %}">
+                    <img src="{%static 'main/img/exit.svg'%}">
+                </a>
+            </div>
+
+            <div class="acc_det_info acc_det_pole">
+                <input type="text" id="citizenship" class="citizenship" name="citizenship" placeholder="Citizenship" value="{{passenger.citizenship}}" required />
+                <div id="citizenship_suggestions" class="citizenship_suggestions"></div>
+                <script src="{%static 'main/js/account_filter.js'%}"></script>
+            </div>
+
+            <div class="acc_det_pole">
+                <select class="acc_det_pole_gender" name="gender" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option disabled selected>{{passenger.gender}}</option>
+                    <!-- <option value="other">Other</option> -->
+                </select>
+            </div>
+
+            <div class="acc_det_doc_title">Passport Details</div>
+
+            <div class="acc_det_pole">
+                <input type="text" id="first_name" name="first_name" placeholder="First Name" value="{{passenger.first_name}}" required />
+            </div>
+
+            <div class="acc_det_pole">
+                <input type="text" id="last_name" name="last_name" placeholder="Last Name" value="{{passenger.last_name}}" required />
+            </div>
+
+            <div class="acc_det_pole">
+                <input type="text" id="passport_number" name="passport_number" placeholder="Passport Number" value="{{passenger.passport_number}}" required />
+            </div>
+
+            <div class="acc_det_pole">
+                <img src="{% static 'main/img/calendar.svg' %}" id="calendar_icon">
+                <input type="text" id="birthday" name="birthday" placeholder="Birthday (Y-m-d)" value="{{passenger.birthday}}" maxlength="10" required>
+                <!-- Подключение Flatpickr через CDN -->
+                <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                <script>
+                    const dateInput = document.getElementById('birthday');
+                    // Функция для форматирования ввода даты вручную
+                    dateInput.addEventListener('input', function (e) {
+                        let value = e.target.value.replace(/\D/g, ''); // Удалить все нецифровые символы
+                        let formattedValue = '';
+
+                        if (value.length > 0) {
+                            formattedValue += value.substring(0, 4); // Год
+                            if (value.length > 4) {
+                                formattedValue += '-' + value.substring(4, 6); // Месяц
+                            }
+                            if (value.length > 6) {
+                                formattedValue += '-' + value.substring(6, 8); // День
+                            }
+                        }
+
+                        e.target.value = formattedValue;
+                    });
+
+                    // Инициализация Flatpickr для поля ввода
+                    const calendarIcon = document.getElementById('calendar_icon');
+                    const flatpickrInstance = flatpickr(dateInput, {
+                        dateFormat: "Y-m-d", // Формат даты
+                        allowInput: true
+                    });
+
+                    // Открытие календаря при нажатии на иконку
+                    calendarIcon.addEventListener('click', function() {
+                        flatpickrInstance.open(); // Открытие календаря
+                    });
+                </script>
+            </div>
+
+            <div class="acc_det_btn">
+                <button class="acc_det_btn_save btn" type="submit">
+                    Save
+                </button>
+                <button class="acc_det_btn_delete btn">
+                    Delete
+                </button>
+            </div>
+        </form>
     </div>
+
+
 {%endblock%}

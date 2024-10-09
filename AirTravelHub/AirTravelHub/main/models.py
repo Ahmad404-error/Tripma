@@ -32,23 +32,19 @@ class CustomUser(AbstractUser):
         help_text='Конкретные разрешения для этого пользователя.',
         verbose_name='разрешения пользователя',
     )
-    
-
-
-
 
 class Passenger(models.Model):
     GENDER_CHOICES = [
-        ('M', 'Male'),
-        ('F', 'Female'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
     ]
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default='Unknown') 
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default='Unknown') 
     citizenship = models.CharField(max_length=100, default='Unknown') 
     first_name = models.CharField(max_length=100)  # Имя
     last_name = models.CharField(max_length=100)  # Фамилия
     # email = models.EmailField()  # Электронная почта
     passport_number = models.CharField(max_length=20)  # Номер паспорта
-    birthday = models.DateField()  # Дата рождения
+    birthday = models.CharField(max_length=10)  # Дата рождения
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):

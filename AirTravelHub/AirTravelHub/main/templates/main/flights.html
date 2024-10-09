@@ -1,15 +1,14 @@
 {%extends 'main/layout.html' %}
 {%load static%}
 
-{%block title%}Tripma{%endblock%}
-
+{%block title%}Flights{%endblock%}
+{%block extra%}
+<link rel="stylesheet" href="{% static 'main/css/flights.css' %}">
+{%endblock%}
+{%block bg%}
+{%endblock%}
 {%block content%}
-
-    <main>
-        <div class='text_home'>
-            It's more than just a trip
-        </div>
-
+    <div class="form_flights_search">
         <form class="flight_search" method="GET" action="{%url 'flights'%}">
             <div class="flight_search_section">
                 <img src="{%static 'main/img/take_off.svg'%}">
@@ -66,146 +65,147 @@
             </div>
             <button class="btn" type="submit">Search</button>
         </form>
-
-        <div class="body">
-            <div class="card_row card_row_4">
-                <div class="title_row">
-                    <div class="title_row_txt">
-                        Find your next adventure with these <a href="">flight deals</a>
-                    </div>
-                    <div class="see_all">
-                        <a href="">All<img src="{%static 'main/img/arrow.svg'%}"></a>
-                    </div>
-                </div>
-                <div class="cards">
-                    <div class="card">
-                        <img src="{%static 'main/img/cards_1.jpg'%}">
-                        <div class="card_data">
-                            <div class="card_data_title">The Bund, <a href=""> Shanqhai</a></div>
-                            <div class="card_data_price">$598</div>
-                        </div>
-                        <div class="sub_card_data">Chine's most international city</div>
-                    </div>
-                    <div class="card">
-                        <img src="{%static 'main/img/cards_2.jpg'%}">
-                        <div class="card_data">
-                            <div class="card_data_title">Sydney Opera House, <a href=""> Sydney</a></div>
-                            <div class="card_data_price">$981</div>
-                        </div>
-                        <div class="sub_card_data">Take a stroll along the famous harbor</div>
-                    </div>
-                    <div class="card">
-                        <img src="{%static 'main/img/cards_3.jpg'%}">
-                        <div class="card_data">
-                            <div class="card_data_title">Kōdaiji Temple, <a href=""> Kyoto</a></div>
-                            <div class="card_data_price">$633</div>
-                        </div>
-                        <div class="sub_card_data">Step back in time in the Gion district</div>
-                    </div>
-                    <div class="card_lrch card">
-                        <img src="{%static 'main/img/cards_4.jpg'%}">
-                        <div class="card_data">
-                            <div class="card_data_title">Tsavo East National Park, <a href=""> Kenya</a></div>
-                            <div class="card_data_price">$1,248</div>
-                        </div>
-                        <div class="sub_card_data">Named after the Tsavo River, and opened in April 1984, Tsavo East National Park is one of the oldest parks in Kenya. It is located in the semi-arid Taru Desert.</div>
-                    
-                    </div>
-                </div>
+    </div>
+    <div class="flights_filter">
+        <select name="Max price">
+            <option disabled selected>Max price ^</option> 
+        </select>
+        <select name="Shops">
+            <option disabled selected>Shops ^</option>
+        </select>
+        <select name="Times">
+            <option disabled selected>Times ^</option>
+        </select>
+        <select name="Airlines">
+            <option disabled selected>Airlines ^</option>
+        </select>
+        <select name="Seat class">
+            <option disabled selected>Seat class ^</option>
+        </select>
+        <select name="More">
+            <option disabled selected>More ^</option>
+        </select>
+    </div>
+    <div class="flights_result_search">
+        <div class="flights_result_search_obj flights_result_search_obj_list">
+            <p>Choose a <a href="">departing</a> flight</p> 
+            <div class="flights_result_search_obj_list_flight">
+                <ul>
+                    {% for flight in flights %}
+                        <li>{{ flight.departure_airport }} - {{ flight.arrival_airport }} ({{ flight.departure_date }})</li>
+                    {% empty %}
+                        <li>Ничего не найдено</li>
+                    {% endfor %}
+                </ul>
             </div>
-            <div class="card_row card_row_3">
-                <div class="title_row">
-                    <div class="title_row_txt card_data_title_chan">
-                        Explore unique <a href="">places to stay</a>
-                    </div>
-                    <div class="see_all">
-                        <a href="">All<img src="{%static 'main/img/arrow.svg'%}"></a>
-                    </div>
-                </div>
-                <div class="cards">
-                    <div class="card">
-                        <img src="{%static 'main/img/cards_5.jpg'%}">
-                        <div class="card_data">
-                            <div class="card_data_title card_data_title_chan">Stay among the atolls in <a href=""> Maldives</a></div>
-                        </div>
-                        <div class="sub_card_data">From the 2nd century AD, the islands were known as the 'Money Isles' due to the abundance of cowry shells, a currency of the early ages.</div>
-                    </div>
-                    <div class="card">
-                        <img src="{%static 'main/img/cards_6.jpg'%}">
-                        <div class="card_data">
-                            <div class="card_data_title card_data_title_chan">Experience the Ourika Valley in <a href=""> Morocco </a></div>
-                        </div>
-                        <div class="sub_card_data">Morocco’s Hispano-Moorish architecture blends influences from Berber culture, Spain, and contemporary artistic currents in the Middle East.</div>
-                    </div>
-                    <div class="card">
-                        <img src="{%static 'main/img/cards_7.jpg'%}">
-                        <div class="card_data">
-                            <div class="card_data_title card_data_title_chan">Live traditionally in <a href=""> Mongolia</a></div>
-                        </div>
-                        <div class="sub_card_data">Traditional Mongolian yurts consists of an angled latticework of wood or bamboo for walls, ribs, and a wheel.</div>
-                    </div>
-                </div>
-            </div>
-            <div class="explore_more_stays_btn">
-                <a href="" class="btn"><button>Explore more stays</button></a>
-            </div>
-            <div class="comment">
-                <div class="comment_title">
-                    What <a href="">Tripma</a> users are saying
-                </div>
-                
-                <div class="comment_card">
-                    <div class="comment_card_block">
-                        <div class="comment_card_block_side">
-                            <img src="{%static 'main/img/avatar_1.jpg'%}">
-                        </div>
-                        <a href="" class="comment_card_block_header">
-                            <div class="comment_card_block_header_name">Yifei Chen</div>
-                            <div class="comment_card_block_header_info">Seoul, South Korea | April 2019</div>
-                            <div class="comment_card_block_header_grade">
-                                <img src="{%static 'main/img/5_stars.svg'%}">
-                            </div>
-                        </a>
-                        <div class="comment_card_block_content">
-                            What a great experience using Tripma! I booked all of my flights for my gap year through Tripma and never had any issues. When I had to cancel a flight because of an emergency, Tripma support helped me <a href="">read more...</a>
-                        </div>
-                    </div>
-                    <div class="comment_card_block">
-                        <div class="comment_card_block_side">
-                            <img src="{%static 'main/img/avatar_2.jpg'%}">
-                        </div>
-                        <a href="" class="comment_card_block_header">
-                            <div class="comment_card_block_header_name">Kaori Yamaguchi</div>
-                            <div class="comment_card_block_header_info">Honolulu, Hawaii | February 2017</div>
-                            <div class="comment_card_block_header_grade">
-                                <img src="{%static 'main/img/4_stars.svg'%}">
-                            </div>
-                        </a>
-                        <div class="comment_card_block_content">
-                            My family and I visit Hawaii every year, and we usually book our flights using other services. Tripma was recommened to us by a long time friend, and I’m so glad we tried it out! The process was easy and <a href="">read more...</a>
-                        </div>
-                    </div>
-                    <div class="comment_card_block">
-                        <div class="comment_card_block_side">
-                            <img src="{%static 'main/img/avatar_3.jpg'%}">
-                        </div>
-                        <a href="" class="comment_card_block_header">
-                            <div class="comment_card_block_header_name">Anthony Lewis</div>
-                            <div class="comment_card_block_header_info">Berlin, Germany | April 2019</div>
-                            <div class="comment_card_block_header_grade">
-                                <img src="{%static 'main/img/5_stars.svg'%}">
-                            </div>
-                        </a>
-                        <div class="comment_card_block_content">
-                            When I was looking to book my flight to Berlin from LAX, Tripma had the best browsing experiece so I figured I’d give it a try. It was my first time using Tripma, but I’d definitely recommend it to a friend and use it for <a href="">read more...</a>
-                        </div>
-                    </div>
-                </div>
-                
+            <div class="flights_result_search_obj_list_btn">
+                <button class="btn flights_result_search_obj_list_button">Show all flights</button>
             </div>
         </div>
-    </main>
-    <footer>
+        <div class="flights_result_search_obj_grid_cont">
+            <div class="flights_result_search_obj_grid">Price grid <p>(flexible dates)</p></div>
+            <div class="flights_result_search_obj_price_grid">
+                {%for i in data%}
+                    <div>{{'huy'}}</div>
+                {%endfor%}
+            </div>
+        </div>
+        <div class="flights_result_search_obj flights_result_search_obj_img">
+            <img src="{%static 'main/img/flight_search_map.png'%}">
+        </div>
+        <div class="flights_result_search_obj">
+            <p>Price history</p>
+            <div class="flights_result_search_obj_price_history">
+                <canvas id="myChart" height="120"></canvas>  <!-- Канвас для графика -->
+            </div>
+        </div>
+        <div class="flights_result_search_obj flights_result_search_obj_info">
+            <div class="flights_result_search_obj_info_title">
+                <p>Price rating</p>
+                <p class="flights_result_search_obj_info_title_subtitle">Buy soon</p>
+            </div>
+            <div class="flights_result_search_obj_info_subtitle">
+                <p class="flights_result_search_obj_info_subtitle_header">We recommend booking soon. The average cost of this flight is $750, but could rise 18% to $885 in two weeks.</p>
+                <p class="flights_result_search_obj_info_subtitle_footer">Tripma analyzes thousands of flights, prices, and trends to ensure you get the best deal.</p>
+            </div>
+        </div>
+    </div>
+    <div class="card_row card_row_3">
+        <div class="title_row">
+            <div class="title_row_txt card_data_title_chan">
+                Find <a href="">places to stay</a> in Japan
+            </div>
+            <div class="see_all">
+                <a href="">All<img src="{%static 'main/img/arrow.svg'%}"></a>
+            </div>
+        </div>
+        <div class="cards">
+            <div class="card">
+                <img src="{%static 'main/img/cards_8.jpg'%}">
+                <div class="card_data">
+                    <div class="card_data_title"><a href=""> Hotel Kaneyamaen and Bessho SASA</a></div>
+                </div>
+                <div class="sub_card_data">Located at the base of Mount Fuji, Hotel Kaneyamaen is a traitional japanese ryokan with a modern twist. Enjoy a private onsen bath and a private multi-course kaiseki dinner.</div>
+            </div>
+            <div class="card">
+                <img src="{%static 'main/img/cards_9.jpg'%}">
+                <div class="card_data">
+                    <div class="card_data_title"><a href=""> HOTEL THE FLAG 大阪市 </a></div>
+                </div>
+                <div class="sub_card_data">Make a stop in Osaka and stay at HOTEL THE FLAG, just a few minutes walk to experience the food culture surrounding Dontonbori. Just one minute away is the Shinsaibashi shopping street.</div>
+            </div>
+            <div class="card">
+                <img src="{%static 'main/img/cards_10.jpg'%}">
+                <div class="card_data">
+                    <div class="card_data_title"><a href=""> 9 Hours Shinjuku</a></div>
+                </div>
+                <div class="sub_card_data">Experience a truly unique stay in an authentic Japanese capsule hotel. 9 Hours Shinjuku is minutes from one of Japan’s busiest train stations. Just take the NEX train from Narita airport!</div>
+            </div>
+        </div>
+    </div>
+    <div class="card_row card_row_3">
+        <div class="title_row">
+            <div class="title_row_txt card_data_title_chan">
+                Explore unique <a href="">places to stay</a>
+            </div>
+            <div class="see_all">
+                <a href="">All<img src="{%static 'main/img/arrow.svg'%}"></a>
+            </div>
+        </div>
+        <div class="cards">
+            <div class="card">
+                <img src="{%static 'main/img/cards_11.jpg'%}">
+                <div class="card_data">
+                    <div class="card_data_title card_data_title_chan">Shanqhai, <a href=""> Chine</a></div>
+                </div>
+                <div class="sub_card_data">
+                    <p>An international city rich in culture</p>
+                    <p>$598</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{%static 'main/img/cards_12.jpg'%}">
+                <div class="card_data">
+                    <div class="card_data_title card_data_title_chan">Nairobi, <a href=""> Kenya </a></div>
+                </div>
+                <div class="sub_card_data">
+                    <p>Dubbed the Safari Capital of the World</p>
+                    <p>$1.248</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{%static 'main/img/cards_13.jpg'%}">
+                <div class="card_data">
+                    <div class="card_data_title card_data_title_chan"> Seoul, South <a href="">Korea</a></div>
+                </div>
+                <div class="sub_card_data">
+                    <p>This modern city is a traveler’s dream</p>
+                    <p>$589</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer_flights">
         <div class="footer_src">
             <div class="footer_src_block">
                 <svg width="131" height="54" viewBox="0 0 131 54" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -265,5 +265,4 @@
             <div class="footer_bottom_info">© 2020 Tripma incorporated</div>
         </div>
     </footer>
-    <script src="{%static 'main/js/main.js'%}"></script>
 {%endblock%}

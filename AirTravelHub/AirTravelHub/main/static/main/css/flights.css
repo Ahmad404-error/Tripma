@@ -1,0 +1,195 @@
+.form_flights_search{
+    min-width: 100%;
+    display: flex;
+    justify-content: start;
+}
+
+.form_flights_search form{
+    margin-bottom: 24px;
+}
+
+.flights_filter{
+    display: flex;
+    gap: 16px;
+    min-width: 100%;
+    justify-content: start;
+    margin-bottom: 48px;
+}
+
+.flights_filter select{
+    color: rgba(39, 39, 63, 1);
+    font-family: Nunito Sans;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 21.82px;
+    text-align: left;
+    display: flex;
+    margin: 0px 12px 0px 12px;
+    gap: 4px;
+    border-radius: 4px;
+    padding: 8px 16px 8px 16px;
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(203, 212, 230, 1);
+}
+
+.flights_result_search{
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24.55px;
+    text-align: left;
+    color: rgba(110, 116, 145, 1);
+    padding: 0px 12px 0px 12px;
+    /* background: rgba(255, 255, 255, 1); */
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* 3 колонки одинаковой ширины */
+    grid-template-rows: 0.45fr 0.30fr 0.25fr; /* ряды будут иметь автоматическую высоту */
+    gap: 40px; /* расстояние между элементами */
+}
+
+.flights_result_search_obj{
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0px 12px 32px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 2px 4px 0px rgba(28, 5, 77, 0.1);
+}
+
+.flights_result_search_obj_grid{
+    display: flex;
+    margin-bottom: 12px;
+    gap: 4px;
+}
+
+.flights_result_search_obj_grid p{
+    color: rgba(110, 116, 145, 1);
+    font-weight: 400;
+}
+
+.flights_result_search_obj_list{
+    height: 100%;
+    grid-column: 1;
+    grid-row: 1/3;
+}
+
+.flights_result_search_obj_list_flight{
+    overflow: auto;
+}
+
+.flights_result_search_obj_list p a{
+    color: rgba(96, 93, 236, 1);
+    transition-duration: 250ms;
+}
+
+.flights_result_search_obj_list p a:hover{
+    font-size: 19px;
+}
+
+.flights_result_search_obj_list_btn{
+    display: flex;
+    width: 100%;
+    justify-content: end;
+}
+
+.flights_result_search_obj_list_button{
+    background: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(96, 93, 236, 1);
+    color: rgba(96, 93, 236, 1);
+}
+
+.flights_result_search_obj_img{
+    grid-column: 1;
+    grid-row: 3;
+    padding: 0px;
+    box-shadow: none;
+    position: relative;
+}
+
+.flights_result_search_obj_img img{
+    position: absolute;
+    bottom: 0;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    box-shadow: 0px 12px 32px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 2px 4px 0px rgba(28, 5, 77, 0.1);
+}
+
+.flights_result_search_obj_info{
+    grid-column: 2;
+    grid-row: 3;
+}
+
+.flights_result_search_obj_info_title{
+    display: flex;
+    gap: 16px;
+    margin-bottom: 15px;
+}
+
+.flights_result_search_obj_info_title_subtitle{
+    font-family: Nunito Sans;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 21.82px;
+    color: rgba(255, 255, 255, 1);
+    text-align: left;
+    background-color: rgba(92, 214, 192, 1);
+    padding: 2px 8px 2px 8px;
+    gap: 10px;
+    border-radius: 4px;
+}
+
+.flights_result_search_obj_info_subtitle_header{
+    font-family: Nunito Sans;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 21.82px;
+    text-align: left;
+    margin-bottom: 6px;
+    color: rgba(110, 116, 145, 1);
+}
+
+.flights_result_search_obj_info_subtitle_footer{
+    font-family: Nunito Sans;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 21.82px;
+    text-align: left;
+    color: rgba(161, 176, 204, 1);
+}
+
+.title_row_txt a{
+    color: rgba(96, 93, 236, 1);
+    margin: 0;
+    padding: 0;
+}
+
+.card_data_title a{
+    color: rgba(96, 93, 236, 1);
+    margin: 0;
+    padding: 0;
+}
+
+.card_data_title_chan a{
+    margin-left: 6px;
+}
+
+.footer_flights{
+    margin-top: 150px;
+}
+
+.flights_result_search_obj_price_grid{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    font-size: 12px;
+}
+
+.flights_result_search_obj_price_grid div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sub_card_data{
+    display: flex;
+    justify-content: space-between;
+}

@@ -6,12 +6,13 @@ from .models import Flight
 from django.db.models import Q
 from django.http import JsonResponse
 from .models import Country, Passenger
+from datetime import datetime
+from django.contrib.auth.decorators import login_required
 
 # мое
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
-# from django.contrib.auth.models import User
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
@@ -23,7 +24,6 @@ from django.contrib import messages
 
 
 def index(request):
-    form = None
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -54,12 +54,14 @@ def index(request):
     
 
 
-def flight_search(request):
+def flights(request):
+    form = SignUpForm
     flights = Flight.objects.all()
     # Получаем данные из GET-запроса
     departure_airport = request.GET.get('from')  # Аэропорт вылета
     arrival_airport = request.GET.get('to')  # Аэропорт прилета
     departure_date = request.GET.get('date')  # Дата вылета
+    data = list(range(1, 61))  # Метки по оси X
 
     if departure_airport:
         flights = flights.filter(
@@ -78,12 +80,14 @@ def flight_search(request):
     if departure_date:
         flights = flights.filter(departure_date=departure_date)
     
-    return render(request, 'main/flight_search.html', {'flights': flights})
+    return render(request, 'main/flights.html', {'flights': flights, 'form': form, 'data': data})
 
+@login_required 
 def document(request):
     try:
         passenger = Passenger.objects.get(user=request.user)
         return render(request, 'main/account_details.html', {'passenger': passenger})
+    
     except:
         if request.method == 'POST':
             form = PassengerForm(request.POST)
@@ -98,6 +102,43 @@ def document(request):
             form = PassengerForm()
 
         return render(request, 'main/account.html', {'form': form})
+
+@login_required
+def document_redact(request):
+    if request.method == 'POST':
+        form = PassengerForm(request.POST)
+        gender = request.POST.get('gender')
+        citizenship = request.POST.get('citizenship')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        passport_number = request.POST.get('passport_number')
+        birthday = request.POST.get('birthday')
+
+
+
+        passenger = Passenger.objects.get(user = request.user)
+        if gender:
+            passenger.gender = gender
+        if citizenship:
+            passenger.citizenship = citizenship
+        if first_name:
+            passenger.first_name = first_name
+        if last_name:
+            passenger.last_name = last_name
+        if passport_number:
+            passenger.passport_number = passport_number
+        if birthday:
+            passenger.birthday = birthday
+        passenger.save()
+
+
+
+        return redirect('home')  # Перенаправляем на страницу успеха
+
+    else:
+        form = PassengerForm()
+    return render(request, 'main/account_details.html', {'form': form})
+    
 
 def country_autocomplete(request):
     if 'term' in request.GET:
@@ -155,4 +196,3 @@ def send_confirmation_email(request, user):
     })
     
     send_mail(subject, message, DEFAULT_FROM_EMAIL , [user.email])
-
