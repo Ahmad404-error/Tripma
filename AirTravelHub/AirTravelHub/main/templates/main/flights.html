@@ -92,9 +92,35 @@
             <div class="flights_result_search_obj_list_flight">
                 <ul>
                     {% for flight in flights %}
-                        <li>{{ flight.departure_airport }} - {{ flight.arrival_airport }} ({{ flight.departure_date }})</li>
+                        <a href=""><div class="flights_result_search_obj_list_flight_pole">
+                            <div class="flights_result_search_obj_list_flight_pole_logo">
+                                {% if flight.airline.code == 'UZB' %}
+                                    <img src="{%static 'main/img/UZB.png'%}">
+                                {% elif flight.airline.code == 'PAA' %}
+                                    <img src="{%static 'main/img/panam.png'%}">
+                                {% elif flight.airline.code == 'KLM' %}
+                                    <img src="{%static 'main/img/klm.png'%}">
+                                {% elif flight.airline.code == 'HAL' %}
+                                    <img src="{%static 'main/img/haw.png'%}">
+                                {% else %}
+                                    <img src="{%static 'main/img/flot.png'%}">
+                                {%endif%}
+                            </div>
+                            <div class="flights_result_search_obj_list_flight_pole_cruize">
+                                <div>{{ flight.departure_airport.iata_code }} - {{ flight.arrival_airport.iata_code }}</div>
+                                <p>{{ flight.airline }}</p>
+                            </div>
+                            <div class="flights_result_search_obj_list_flight_pole_cruize">
+                                <div>{{ flight.departure_date }}</div>
+                                <div>{{ flight.departure_time }} - {{ flight.arrival_time }}</div>
+                            </div>
+                            <div class="flights_result_search_obj_list_flight_pole_cruize">
+                                <div>100$</div>
+                                <p>round trip</p>
+                            </div>
+                        </div></a>
                     {% empty %}
-                        <li>Ничего не найдено</li>
+                        <div>Ничего не найдено</div>
                     {% endfor %}
                 </ul>
             </div>
