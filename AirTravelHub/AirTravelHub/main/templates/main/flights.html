@@ -115,7 +115,13 @@
                                 <div>{{ flight.departure_time }} - {{ flight.arrival_time }}</div>
                             </div>
                             <div class="flights_result_search_obj_list_flight_pole_cruize">
-                                <div>100$</div>
+                                {% if flight.flightprice_set.exists %}
+                                    {% for price in flight.flightprice_set.all %}
+                                        <div>{{ price.price }} $</div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div>Цены не указаны</div>
+                                {% endif %}
                                 <p>round trip</p>
                             </div>
                         </div></a>

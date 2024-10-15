@@ -35,8 +35,8 @@ class MyModelAdmin(admin.ModelAdmin):
     list_display = ('passenger', 'seat_number')  # Определите, какие поля отображать в списке
 
 
-# @admin.register(FlightPrice)
-# class MyModelAdmin(admin.ModelAdmin):
-#     list_display = ('first_name', 'last_name')  # Определите, какие поля отображать в списке
+@admin.register(FlightPrice)
+class MyModelAdmin(admin.ModelAdmin):
+    list_display = ('flight', 'price')  # Определите, какие поля отображать в списке
 
 

@@ -79,9 +79,10 @@ class FlightPrice(models.Model):
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE)  # Связь с рейсом
     travel_class = models.CharField(max_length=20, choices=[('Economy', 'Economy'), ('Business', 'Business'), ('First', 'First')])  # Класс обслуживания
     price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена билета для данного класса обслуживания
+    price_history = models.JSONField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.flight.flight_number} - {self.travel_class} Class: {self.price}"
+        return f"{self.flight.flight_number} - {self.travel_class} Class: {self.price} {self.price_history}"
     
 
 class Ticket(models.Model):
