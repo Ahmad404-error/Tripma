@@ -1,8 +1,10 @@
 {%extends 'main/layout.html' %}
 {%load static%}
+{% load custom_filters %}
 
 {%block title%}Flights{%endblock%}
 {%block extra%}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link rel="stylesheet" href="{% static 'main/css/flights.css' %}">
 {%endblock%}
 {%block bg%}
@@ -92,7 +94,7 @@
             <div class="flights_result_search_obj_list_flight">
                 <ul>
                     {% for flight in flights %}
-                        <a href=""><div class="flights_result_search_obj_list_flight_pole">
+                        <a href=""><div class="flights_result_search_obj_list_flight_pole" data-values='[200, 230, 250, 190, 250, 292, 190, 234]'>
                             <div class="flights_result_search_obj_list_flight_pole_logo">
                                 {% if flight.airline.code == 'UZB' %}
                                     <img src="{%static 'main/img/UZB.png'%}">
@@ -134,21 +136,21 @@
                 <button class="btn flights_result_search_obj_list_button">Show all flights</button>
             </div>
         </div>
-        <div class="flights_result_search_obj_grid_cont">
+        <!-- <div class="flights_result_search_obj_grid_cont">
             <div class="flights_result_search_obj_grid">Price grid <p>(flexible dates)</p></div>
             <div class="flights_result_search_obj_price_grid">
                 {%for i in data%}
                     <div>{{'huy'}}</div>
                 {%endfor%}
             </div>
-        </div>
+        </div> -->
         <div class="flights_result_search_obj flights_result_search_obj_img">
             <img src="{%static 'main/img/flight_search_map.png'%}">
         </div>
-        <div class="flights_result_search_obj">
+        <div class="flights_result_search_obj flights_result_search_obj_info_canvas">
             <p>Price history</p>
             <div class="flights_result_search_obj_price_history">
-                <canvas id="myChart" height="120"></canvas>  <!-- Канвас для графика -->
+                <canvas id="myChart" height="192px"></canvas>  <!-- Канвас для графика -->
             </div>
         </div>
         <div class="flights_result_search_obj flights_result_search_obj_info">
@@ -162,6 +164,74 @@
             </div>
         </div>
     </div>
+    <script>
+        // Получаем элемент canvas
+        var ctx = document.getElementById('myChart').getContext('2d');
+        // Создаем новый градиент
+        var gradient = ctx.createLinearGradient(0, 0, 0, 200);
+        gradient.addColorStop(0, '#A5A4F4'); // Начальный цвет
+        gradient.addColorStop(0.44, 'rgba(195, 194, 248, 0.328125)'); // Промежуточный цвет
+        gradient.addColorStop(1, 'rgba(210, 209, 250, 0)'); // Конечный цвет
+    
+        var myChart; // Объявляем переменную для графика
+    
+        // Функция для создания графика
+        function createChart(data) {
+            if (myChart) {
+                myChart.destroy(); // Уничтожаем предыдущий график, если он существует
+            }
+    
+            myChart = new Chart(ctx, {
+                type: 'line', // Тип графика: 'line' для линейного
+                data: {
+                    labels: ['Nov', 'Dec', 'Feb', 'Apr', 'Jun', 'Aug'], // Метки оси X
+                    datasets: [{
+                        label: ' Price ',
+                        data: data, // Данные для построения графика
+                        borderColor: 'rgba(96, 93, 236, 1)', // Цвет линии
+                        backgroundColor: gradient,
+                        borderWidth: 2, // Толщина линии
+                        fill: true, // Заполнение под графиком
+                        tension: 0.4,
+                        pointRadius: 1, // Радиус точек
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: 'rgba(110, 116, 145, 1)', 
+                            }
+                        },
+                        y: {
+                            beginAtZero: true, // Начинаем с нуля
+                            ticks: {
+                                stepSize: 50, // Задаем шаг 50
+                                callback: function(value) { return '$' + value; },
+                                color: 'rgba(110, 116, 145, 1)'
+                            }
+                        }
+                    }
+                }
+            });
+    
+            document.getElementById('myChart').style.display = 'block'; // Показываем график
+        }
+    
+        // Обработчики наведения на элементы
+        document.querySelectorAll('.flights_result_search_obj_list_flight_pole').forEach(function(element) {
+            element.addEventListener('mouseenter', function() { // Используем mouseenter вместо mouseover
+                var values = JSON.parse(element.getAttribute('data-values')); // Получаем данные
+                createChart(values); // Создаем график с данными
+            });
+    
+            element.addEventListener('mouseleave', function() {
+                document.getElementById('myChart').style.display = 'none'; // Скрываем график
+            });
+        });
+    </script>
+    
+    
     <div class="card_row card_row_3">
         <div class="title_row">
             <div class="title_row_txt card_data_title_chan">
