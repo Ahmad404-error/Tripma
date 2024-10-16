@@ -113,9 +113,6 @@ def document_redact(request):
         last_name = request.POST.get('last_name')
         passport_number = request.POST.get('passport_number')
         birthday = request.POST.get('birthday')
-
-
-
         passenger = Passenger.objects.get(user = request.user)
         if gender:
             passenger.gender = gender
@@ -155,10 +152,6 @@ def country_autocomplete(request):
     
     return JsonResponse([], safe=False)
 
-
-
-
-
 User = get_user_model()
 
 def activate_account(request, uidb64, token):
@@ -177,10 +170,6 @@ def activate_account(request, uidb64, token):
         messages.error(request, 'Ссылка активации недействительна.')
         return redirect('register')
 
-
-
-
-
 def send_confirmation_email(request, user):
     token = default_token_generator.make_token(user)
     uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
@@ -196,3 +185,16 @@ def send_confirmation_email(request, user):
     })
     
     send_mail(subject, message, DEFAULT_FROM_EMAIL , [user.email])
+
+
+def passenger_info(request):
+    # print(request.GET.get('flightNumber'))
+    flight_number = request.GET.get('flightNumber')
+    logo = request.GET.get('logo')
+    airline = request.GET.get('airline')
+    departureDate = request.GET.get('departureDate')
+    departureTime = request.GET.get('departureTime')
+    arrivalTime = request.GET.get('arrivalTime')
+    price = request.GET.get('price')
+    total = request.GET.get('total')
+    return render(request, 'main/passenger_info.html', {'flight_number': flight_number, 'logo': logo, 'airline': airline, 'departureDate': departureDate, 'departureTime': departureTime, 'arrivalTime': arrivalTime, 'price': price, 'total': total})

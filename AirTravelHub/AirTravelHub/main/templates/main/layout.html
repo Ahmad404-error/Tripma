@@ -66,16 +66,18 @@
                             </svg>
                         </a>
                         <div class="navigation_menu nav">
-                            <a href="{%url 'flights'%}" class="navigation_menu_obj">Flights</a>
-                            <a href="" class="navigation_menu_obj">Hotels</a>
-                            <a href="" class="navigation_menu_obj">Packages</a>
-                            {%if user.is_authenticated == False%}
-                            <a href="{% url 'login' %}"><button class="navigation_menu_obj" id="openModal_login">Sign in</button></a>
-                            <button class="navigation_menu_obj_btn btn" id="openModal">Sign up</button>
-                            {%else%}
-                            <div class="navigation_menu_obj_icon" id="navigation_menu_obj_icon">
-                                <img src="{%static 'main/img/menu.svg'%}">
-                            </div>
+                            <a href="{% url 'flights' %}" class="navigation_menu_obj" id="flights_menu_obj">Flights</a>
+                            <a href="" class="navigation_menu_obj" id="hotels_menu_obj">Hotels</a>
+                            <a href="" class="navigation_menu_obj" id="packages_menu_obj">Packages</a>
+                            {% if user.is_authenticated == False %}
+                                <a href="{% url 'login' %}">
+                                    <button class="navigation_menu_obj" id="openModal_login">Sign in</button>
+                                </a>
+                                <button class="navigation_menu_obj_btn btn" id="openModal">Sign up</button>
+                            {% else %}
+                                <div class="navigation_menu_obj_icon" id="navigation_menu_obj_icon">
+                                    <img src="{% static 'main/img/menu.svg' %}">
+                                </div>
                             <script>
                                 document.getElementById('navigation_menu_obj_icon').addEventListener('click', function (event) {
                                     event.stopPropagation(); // Останавливаем всплытие события клика сразу

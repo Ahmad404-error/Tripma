@@ -47,7 +47,7 @@ ul{
     /* background: rgba(255, 255, 255, 1); */
     display: grid;
     grid-template-columns: 2fr 1fr; /* 3 колонки одинаковой ширины */
-    grid-template-rows: 400px auto; /* ряды будут иметь автоматическую высоту */
+    grid-template-rows: 420px auto; /* ряды будут иметь автоматическую высоту */
     gap: 40px; /* расстояние между элементами */
 }
 
@@ -113,13 +113,14 @@ ul{
     padding-top: 20px;
     grid-column: 2;
     grid-row: 1;
-    height: 60%;
+    height: 70%;
+    display: block;
 }
 
 .flights_result_search_obj_price_history{
     display: flex;
     align-items: center;
-    height: 90%;
+    height: 100%;
 }
 
 .flights_result_search_obj_img img{
@@ -262,7 +263,14 @@ ul{
 
 .flights_result_search_obj_list_flight_pole:hover{
     background-color: rgba(124, 141, 176, 0.2);
+    
 }
+
+#flights_result_search_obj_list_flight_pole.active{
+    background-color: rgba(96, 93, 236, 0.15);
+    border: 1px solid rgba(96, 93, 236, 1)
+}
+
 
 .flights_result_search_obj_list_flight_pole_cruize{
     width: 100%;
@@ -288,4 +296,103 @@ ul{
     display: flex;
     max-width: 40px;
     height: 40px;
+}
+
+.flights_result_search_obj_choose{
+    display: none;
+    padding-top: 20px;
+    grid-column: 2;
+    grid-row: 1;
+    height: 70%;
+}
+
+.flights_result_search_obj_choose_flight{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    font-family: Nunito Sans;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 21.82px;
+    color: rgba(39, 39, 63, 1);
+    border: 1px solid rgba(233, 232, 252, 1);
+    border-radius: 12px;
+}
+
+.flights_result_search_obj_choose_flight_name{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    max-width: 148px;
+}
+
+.flights_result_search_obj_choose_flight_name_title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flights_result_search_obj_choose_flight_name_subtitle{
+    color: rgba(124, 141, 176, 1);
+}
+
+.flights_result_search_obj_choose_flight_depar{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.flights_result_search_obj_choose_grid{
+    display: flex;
+    justify-content: end;
+    padding: 16px 0px 16px 0px;
+}
+
+.flights_result_search_obj_choose_flight_js{
+    padding-top: 30px;
+}
+
+.flights_result_search_obj_choose_total{
+    display: grid;
+    gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    color: rgba(39, 39, 63, 1);
+    font-family: Nunito Sans;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 21.82px;
+    text-align: right;
+
+}
+
+.flights_result_search_obj_choose_total_subtotal{
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.flights_result_search_obj_choose_total_subtotal_num{
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.flights_result_search_obj_choose_total_taxes{
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.flights_result_search_obj_choose_total_taxes_num{
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.flights_result_search_obj_choose_total_resalt{
+    grid-column: 1;
+    grid-row: 3;
+}
+
+.flights_result_search_obj_choose_total_resalt_num{
+    grid-column: 2;
+    grid-row: 3;
 }

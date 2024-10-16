@@ -94,18 +94,34 @@
             <div class="flights_result_search_obj_list_flight">
                 <ul>
                     {% for flight in flights %}
-                        <a href=""><div class="flights_result_search_obj_list_flight_pole" data-values='[200, 230, 250, 190, 250, 292, 190, 234]'>
+                        <div class="flights_result_search_obj_list_flight_pole" 
+                        data-number='{{flight.flight_number}}'
+                        data-values='{{flight.price_history}}' 
+                        data-airline='{{ flight.airline.name }}'
+                        data-departure='{{ flight.departure_airport.iata_code }}'
+                        data-arrival='{{ flight.arrival_airport.iata_code }}'
+                        data-departure-date='{{ flight.departure_date }}'
+                        data-departure-time='{{ flight.departure_time }}'
+                        data-arrival-time='{{ flight.arrival_time }}'
+                        data-logo="{% static 'main/img/' %}{{ flight.airline.code|lower }}.png"
+                        data-price="{% if flight.flightprice_set.exists %}{{ flight.flightprice_set.first.price }}{% else %}0{% endif %}"
+                        id="flights_result_search_obj_list_flight_pole">
+
                             <div class="flights_result_search_obj_list_flight_pole_logo">
                                 {% if flight.airline.code == 'UZB' %}
                                     <img src="{%static 'main/img/UZB.png'%}">
-                                {% elif flight.airline.code == 'PAA' %}
-                                    <img src="{%static 'main/img/panam.png'%}">
-                                {% elif flight.airline.code == 'KLM' %}
-                                    <img src="{%static 'main/img/klm.png'%}">
-                                {% elif flight.airline.code == 'HAL' %}
-                                    <img src="{%static 'main/img/haw.png'%}">
-                                {% else %}
-                                    <img src="{%static 'main/img/flot.png'%}">
+                                    {%endif%}
+                                {% if flight.airline.code == 'PAA' %}
+                                    <img src="{%static 'main/img/PAA.png'%}">
+                                {%endif%}
+                                {% if flight.airline.code == 'KLM' %}
+                                    <img src="{%static 'main/img/KLM.png'%}">
+                                {%endif%}
+                                {% if flight.airline.code == 'HAL' %}
+                                    <img src="{%static 'main/img/HAL.png'%}">
+                                {%endif%}
+                                {% if flight.airline.code == 'AFL'%}
+                                    <img src="{%static 'main/img/AFL.png'%}">
                                 {%endif%}
                             </div>
                             <div class="flights_result_search_obj_list_flight_pole_cruize">
@@ -126,7 +142,7 @@
                                 {% endif %}
                                 <p>round trip</p>
                             </div>
-                        </div></a>
+                        </div>
                     {% empty %}
                         <div>Ничего не найдено</div>
                     {% endfor %}
@@ -147,10 +163,18 @@
         <div class="flights_result_search_obj flights_result_search_obj_img">
             <img src="{%static 'main/img/flight_search_map.png'%}">
         </div>
-        <div class="flights_result_search_obj flights_result_search_obj_info_canvas">
+        <div class="flights_result_search_obj flights_result_search_obj_info_canvas" id="flights_result_search_obj_info_canvas">
             <p>Price history</p>
             <div class="flights_result_search_obj_price_history">
                 <canvas id="myChart" height="192px"></canvas>  <!-- Канвас для графика -->
+            </div>
+        </div>
+        <div class="flights_result_search_obj_choose" id="flights_result_search_obj_choose">
+            <div class="flights_result_search_obj_choose_flight_js" id="flights_result_search_obj_choose_flight_js">
+
+            </div>
+            <div class="flights_result_search_obj_list_btn" style="justify-content: start;">
+                <button class="btn" id="pass_info">Passenger information</button>
             </div>
         </div>
         <div class="flights_result_search_obj flights_result_search_obj_info">
@@ -159,7 +183,7 @@
                 <p class="flights_result_search_obj_info_title_subtitle">Buy soon</p>
             </div>
             <div class="flights_result_search_obj_info_subtitle">
-                <p class="flights_result_search_obj_info_subtitle_header">We recommend booking soon. The average cost of this flight is $750, but could rise 18% to $885 in two weeks.</p>
+                <p class="flights_result_search_obj_info_subtitle_header" id="flights_result_search_obj_info_subtitle_header">We recommend booking soon. The average cost of this flight is $750, but could rise 18% to $885 in two weeks.</p>
                 <p class="flights_result_search_obj_info_subtitle_footer">Tripma analyzes thousands of flights, prices, and trends to ensure you get the best deal.</p>
             </div>
         </div>
@@ -167,6 +191,7 @@
     <script>
         // Получаем элемент canvas
         var ctx = document.getElementById('myChart').getContext('2d');
+        var info = document.getElementById('flights_result_search_obj_info_subtitle_header')
         // Создаем новый градиент
         var gradient = ctx.createLinearGradient(0, 0, 0, 200);
         gradient.addColorStop(0, '#A5A4F4'); // Начальный цвет
@@ -174,17 +199,22 @@
         gradient.addColorStop(1, 'rgba(210, 209, 250, 0)'); // Конечный цвет
     
         var myChart; // Объявляем переменную для графика
-    
+        // Базовый график до взаимодействия пользователя
+        var defaultData = [100, 150, 90, 190, 140, 200]; // Базовые данные
+        createChart(defaultData);
         // Функция для создания графика
         function createChart(data) {
             if (myChart) {
                 myChart.destroy(); // Уничтожаем предыдущий график, если он существует
             }
+            var minValue = Math.min(...data);
+            var maxValue = Math.max(...data);
+            var averageValue = (data.reduce((sum, value) => sum + value, 0) / data.length).toFixed(2); // Среднее значение
     
             myChart = new Chart(ctx, {
                 type: 'line', // Тип графика: 'line' для линейного
                 data: {
-                    labels: ['Nov', 'Dec', 'Feb', 'Apr', 'Jun', 'Aug'], // Метки оси X
+                    labels: ['Oct', 'Dec', 'Feb', 'Apr', 'Jun', 'Aug'], // Метки оси X
                     datasets: [{
                         label: ' Price ',
                         data: data, // Данные для построения графика
@@ -193,29 +223,31 @@
                         borderWidth: 2, // Толщина линии
                         fill: true, // Заполнение под графиком
                         tension: 0.4,
-                        pointRadius: 1, // Радиус точек
+                        pointRadius: 0, // Радиус точек
                     }]
                 },
                 options: {
-                    scales: {
-                        x: {
-                            ticks: {
-                                color: 'rgba(110, 116, 145, 1)', 
-                            }
-                        },
-                        y: {
-                            beginAtZero: true, // Начинаем с нуля
-                            ticks: {
-                                stepSize: 50, // Задаем шаг 50
-                                callback: function(value) { return '$' + value; },
-                                color: 'rgba(110, 116, 145, 1)'
-                            }
+                scales: {
+                    x: {
+                        display: true, // Скрываем ось X
+                        ticks: {
+                            color: 'rgba(110, 116, 145, 1)'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true, // Начинаем с нуля
+                        ticks: {
+                            stepSize: 50, // Задаем шаг 50
+                            callback: function(value) { return '$' + value; },
+                            color: 'rgba(110, 116, 145, 1)'
                         }
                     }
                 }
+            }
             });
     
             document.getElementById('myChart').style.display = 'block'; // Показываем график
+            info.innerHTML = `We recommend booking soon. The average cost of this flight is $${averageValue}, but could rise to $${(maxValue * 1.18).toFixed(2)} in two weeks.`;
         }
     
         // Обработчики наведения на элементы
@@ -227,11 +259,115 @@
     
             element.addEventListener('mouseleave', function() {
                 document.getElementById('myChart').style.display = 'none'; // Скрываем график
+                createChart(defaultData);
             });
         });
+
+
+        const flightPoles = document.querySelectorAll('.flights_result_search_obj_list_flight_pole');
+        const priceHistoryDiv = document.getElementById('flights_result_search_obj_info_canvas');
+        const chooseFlightDiv = document.getElementById('flights_result_search_obj_choose_flight_js');
+
+        // Обработчик события для каждого элемента
+        flightPoles.forEach(pole => {
+            pole.addEventListener('click', function(event) {
+                event.stopPropagation(); // Предотвращает всплытие события
+                flightPoles.forEach(p => p.classList.remove('active')); // Удаляем класс у всех
+                pole.classList.add('active'); // Добавляем класс только к нажатому
+
+                // Прячем график цен
+                priceHistoryDiv.style.display = 'none';
+
+                // Показываем блок выбора
+                document.getElementById('flights_result_search_obj_choose').style.display = 'block';
+
+                // Получаем данные из элемента
+                const logo = pole.getAttribute('data-logo'); // Логотип
+                const flightNumber = pole.getAttribute('data-number');
+                const flightData = pole.getAttribute('data-values'); // История цен
+                const airline = pole.getAttribute('data-airline'); // Авиакомпания
+                const departure = pole.getAttribute('data-departure'); // Аэропорт отправления
+                const arrival = pole.getAttribute('data-arrival'); // Аэропорт прибытия
+                const departureDate = pole.getAttribute('data-departure-date'); // Дата отправления
+                const departureTime = pole.getAttribute('data-departure-time'); // Время отправления
+                const arrivalTime = pole.getAttribute('data-arrival-time'); // Время прибытия
+                const price = parseFloat(pole.getAttribute('data-price'));
+                const total = Math.round(price + 121); 
+
+                // Обновляем содержимое chooseFlightDiv
+                chooseFlightDiv.innerHTML = ''; // Очищаем предыдущее содержимое
+                chooseFlightDiv.innerHTML = `
+                <div class='flights_result_search_obj_choose_flight' id='flights_result_search_obj_choose_flight' 
+                        data-number='${flightNumber}'
+                        data-airline='${airline}'
+                        data-departure='${departure}'
+                        data-arrival='${arrival}'
+                        data-departure-date='${departureDate}'
+                        data-departure-time='${departureTime}'
+                        data-arrival-time='${arrivalTime}'
+                        data-logo="${logo}"
+                        data-price="${price}"
+                        data-total="${total}">
+
+                    <div class = 'flights_result_search_obj_list_flight_pole_logo'>
+                        <img src="${logo}" alt="${airline} логотип" style="width: 100px; height: auto;">
+                    </div>
+                    <div class = 'flights_result_search_obj_choose_flight_name'>
+                        <p class = 'flights_result_search_obj_choose_flight_name_title'>${airline}</p>
+                        <p class= 'flights_result_search_obj_choose_flight_name_subtitle'>${flightNumber}</p>
+                    </div>
+                    
+                    <div class = 'flights_result_search_obj_choose_flight_depar'>
+                        <p class='flights_result_search_obj_choose_flight_name_title'>${departureTime} - ${arrivalTime}</p>
+                        <p class='flights_result_search_obj_choose_flight_name_subtitle'>${departureDate}</p>
+                    </div>
+                </div>
+                <div class='flights_result_search_obj_choose_grid'>
+                    <div class="flights_result_search_obj_choose_total">
+                        <p class='flights_result_search_obj_choose_total_subtotal'>Subtotal:</p>
+                        <p class="flights_result_search_obj_choose_total_subtotal_num">$${price}</p>
+                    
+                        <p class='flights_result_search_obj_choose_total_taxes'>Taxes and Fees:</p>
+                        <p class='flights_result_search_obj_choose_total_taxes_num'> $121</p>
+
+                        <p class='flights_result_search_obj_choose_total_resalt'>Total:</p>
+                        <p class="flights_result_search_obj_choose_total_resalt_num">$${total}</p>
+                    </div>
+                </div>
+                `;
+            });
+        });
+
+        
+        // Обработчик события для всего документа
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.flights_result_search_obj_list_flight_pole')) {
+                flightPoles.forEach(p => p.classList.remove('active')); // Убираем класс у всех при нажатии вне элемента
+                priceHistoryDiv.style.display = 'block'; // Показываем график цен
+                document.getElementById('flights_result_search_obj_choose').style.display = 'none'; // Прячем окно выбора
+            }
+        });
+
+        // Перенаправление с URL
+        document.getElementById('pass_info').addEventListener('click', function() {
+            // Формируем URL с параметрами
+            const data = document.querySelector('.flights_result_search_obj_choose_flight');
+            if (data) {
+                const logo = data.getAttribute('data-logo'); // Логотип
+                const flightNumber = data.getAttribute('data-number');
+                const airline = data.getAttribute('data-airline'); // Авиакомпания
+                const departureDate = data.getAttribute('data-departure-date'); // Дата отправления
+                const departureTime = data.getAttribute('data-departure-time'); // Время отправления
+                const arrivalTime = data.getAttribute('data-arrival-time'); // Время прибытия
+                const price = parseFloat(data.getAttribute('data-price'));
+                const total = Math.round(price + 121); 
+                const targetURL = `/passenger_info?flightNumber=${flightNumber}&logo=${logo}&airline=${airline}&departureDate=${departureDate}&departureTime=${departureTime}&arrivalTime=${arrivalTime}&price=${price}&total=${total}`;
+                window.location.href = targetURL;
+            } else {
+                console.error("Flight data not found.");
+            }
+        });
     </script>
-    
-    
     <div class="card_row card_row_3">
         <div class="title_row">
             <div class="title_row_txt card_data_title_chan">
