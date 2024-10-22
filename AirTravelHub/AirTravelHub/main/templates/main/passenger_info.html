@@ -15,104 +15,184 @@
     </div>
     <div class="passenger_info_content">
         <div class="passenger_info_content_form">
-            <div class="passenger_info_content_form_adult">
-                <label>Passenger 1 (Adult)</label>
-                <div class="passenger_info_content_form_adult_grid1">
-                    <div class="passenger_info_content_form_adult_grid1_obj">
-                        <input type="text" id="first_name" name="first_name" placeholder="First name*" value="{{passenger.first_name}}">
+            <form method="POST" action="{%url 'document_redact'%}" id="passengerForm">
+                {% csrf_token %}
+                <div class="passenger_info_content_form_adult">
+                    <label>Passenger 1 (Adult)</label>
+                    <div class="passenger_info_content_form_adult_grid1">
+                        <div class="passenger_info_content_form_adult_grid1_obj">
+                            <input type="text" id="first_name" name="first_name" placeholder="First name*" value="{% if passenger.first_name != 'Unknown' %}{{ passenger.first_name }}{% endif %}" required>
+                        </div>
+                        <div class="passenger_info_content_form_adult_grid1_obj">
+                            <input type="text" id="middle" name="middle" placeholder="Middle" value="{% if passenger.middle != 'Unknown' %}{{ passenger.middle }}{% endif %}">
+                        </div>
+                        <div class="passenger_info_content_form_adult_grid1_obj">
+                            <input type="text" id="last_name" name="last_name" placeholder="Last name*" value="{% if passenger.last_name != 'Unknown' %}{{ passenger.last_name }}{% endif %}" required>
+                        </div>
+                        <div class="passenger_info_content_form_adult_grid1_obj">
+                            <input type="text" id="suffix" name="suffix" placeholder="Suffix" value="{% if passenger.suffix != 'Unknown' %}{{ passenger.suffix }}{% endif %}">
+                        </div>
+                        <div class="passenger_info_content_form_adult_grid1_obj">
+                            <input type="text" id="birthday" name="birthday" placeholder="Date of birth* (Y-m-d)" value="{{passenger.birthday}}" maxlength="10">
+                            <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                            <script>
+                                const dateInput = document.getElementById('birthday');
+                                // Функция для форматирования ввода даты вручную
+                                dateInput.addEventListener('input', function (e) {
+                                    let value = e.target.value.replace(/\D/g, ''); // Удалить все нецифровые символы
+                                    let formattedValue = '';
+                                    if (value.length > 0) {
+                                        formattedValue += value.substring(0, 4); // Год
+                                        if (value.length > 4) {
+                                            formattedValue += '-' + value.substring(4, 6); // Месяц
+                                        }
+                                        if (value.length > 6) {
+                                            formattedValue += '-' + value.substring(6, 8); // День
+                                        }
+                                    }
+                                    e.target.value = formattedValue;
+                                });
+                                const calendarIcon = document.getElementById('birthday');
+                                const flatpickrInstance = flatpickr(dateInput, {
+                                    dateFormat: "Y-m-d", // Формат даты
+                                    allowInput: true
+                                });
+                                calendarIcon.addEventListener('click', function() {
+                                    flatpickrInstance.open(); // Открытие календаря
+                                });
+                            </script>
+                        </div>
                     </div>
-                    <div class="passenger_info_content_form_adult_grid1_obj">
-                        <input type="text" id="middle" name="middle" placeholder="Middle">
+                    <div class="passenger_info_content_form_adult_grid2">
+                        <div class="passenger_info_content_form_adult_grid1_obj">
+                            <input type="text" id="email" name="email" placeholder="Email address*" value="{% if email != 'Unknown' %}{{ email }}{% endif %}" required>
+                        </div>
+                        <div class="passenger_info_content_form_adult_grid1_obj">
+                            <input type="text" id="phone" name="phone_number" placeholder="Phone number*" value="{% if passenger.phone_number != 'Unknown' %}{{ passenger.phone_number }}{% endif %}" required>
+                        </div>
+                        <div class="passenger_info_content_form_adult_grid1_obj">
+                            <input type="text" id="redress" name="redress_number" placeholder="Redress number" value="{% if passenger.redress_number != 'Unknown' %}{{ passenger.redress_number }}{% endif %}">
+                        </div>
+                        <div class="passenger_info_content_form_adult_grid1_obj">
+                            <input type="text" id="travel" name="travel_number" placeholder="Knows travel number*" value="{% if passenger.travel_number != 'Unknown' %}{{ passenger.travel_number }}{% endif %}" required>
+                        </div>
                     </div>
-                    <div class="passenger_info_content_form_adult_grid1_obj">
-                        <input type="text" id="last_name" name="last_name" placeholder="Last name*" value="{{passenger.last_name}}">
+                </div>
+                <div class="passenger_info_content_form_emergency">
+                    <p>Emergency contact information</p>
+                    <div class="checkbox passenger_info_content_form_emergency_choose">
+                        <input type="checkbox" id="checkbox">  
+                        <p>Same as Passenger 1</p>
                     </div>
-                    <div class="passenger_info_content_form_adult_grid1_obj">
-                        <input type="text" id="suffix" name="suffix" placeholder="Suffix">
+                    <div class="passenger_info_content_form_adult_grid2">
+                        <div class="passenger_info_content_form_adult_grid1_obj">
+                            <input type="text" id="first_name_add" name="first_name_add" placeholder="First name*" value="{% if passenger.first_name_add != 'Unknown' %}{{ passenger.first_name_add }}{% endif %}" required>
+                        </div>
+                        <div class="passenger_info_content_form_adult_grid1_obj">
+                            <input type="text" id="last_name_add" name="last_name_add" placeholder="Last name*" value="{% if passenger.last_name_add != 'Unknown' %}{{ passenger.last_name_add }}{% endif %}" required>
+                        </div>
+                        <div class="passenger_info_content_form_adult_grid1_obj">
+                            <input type="text" id="email_add" name="email_add" placeholder="Email address*" value="{% if passenger.email_add != 'Unknown' %}{{ passenger.email_add }}{% endif %}" required>
+                        </div>
+                        <div class="passenger_info_content_form_adult_grid1_obj">
+                            <input type="text" id="phone_number_add" name="phone_number_add" placeholder="Phone number*" value="{% if passenger.phone_number_add != 'Unknown' %}{{ passenger.phone_number_add }}{% endif %}" required>
+                        </div>
                     </div>
-                    <div class="passenger_info_content_form_adult_grid1_obj">
-                        <input type="text" id="birthday" name="birthday" placeholder="Date of birth* (Y-m-d)" value="{{passenger.birthday}}" maxlength="10">
-                        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                    <script>
+                        const checkbox = document.getElementById('checkbox');
+                        const firstName = document.getElementById('first_name_add');
+                        const lastName = document.getElementById('last_name_add');
+                        const email = document.getElementById('email_add');
+                        const phoneNumber = document.getElementById('phone_number_add');
+
+                        // Сохраняем начальные значения
+                        const originalFirstName = firstName.value;
+                        const originalLastName = lastName.value;
+                        const originalEmail = email.value;
+                        const originalPhoneNumber = phoneNumber.value;
+
+                        checkbox.addEventListener('change', function() {
+                            if (checkbox.checked) {
+                                // Измените значения на значения из полей пассажира 1
+                                firstName.value = document.getElementById('first_name').value;  // Значение из поля Passenger 1
+                                lastName.value = document.getElementById('last_name').value;    // Значение из поля Passenger 1
+                                email.value = document.getElementById('email').value;          // Значение из поля Passenger 1
+                                phoneNumber.value = document.getElementById('phone').value;    // Значение из поля Passenger 1
+                            } else {
+                                // Возвращаем прежние значения
+                                firstName.value = originalFirstName;
+                                lastName.value = originalLastName;
+                                email.value = originalEmail;
+                                phoneNumber.value = originalPhoneNumber;
+                            }
+                        });
+
+                        document.getElementById('pass_info').addEventListener('click', function() {
+                        // Формируем URL с параметрами
+                        const data = document.querySelector('.flights_result_search_obj_choose_flight');
+                        if (data) {
+                            const logo = data.getAttribute('data-logo'); // Логотип
+                            const flightNumber = data.getAttribute('data-number');
+                            const airline = data.getAttribute('data-airline'); // Авиакомпания
+                            const departureDate = data.getAttribute('data-departure-date'); // Дата отправления
+                            const departureTime = data.getAttribute('data-departure-time'); // Время отправления
+                            const arrivalTime = data.getAttribute('data-arrival-time'); // Время прибытия
+                            const price = parseFloat(data.getAttribute('data-price'));
+                            const total = Math.round(price + 121); 
+                            const targetURL = `/passenger_info?flightNumber=${flightNumber}&logo=${logo}&airline=${airline}&departureDate=${departureDate}&departureTime=${departureTime}&arrivalTime=${arrivalTime}&price=${price}&total=${total}`;
+                            window.location.href = targetURL;
+                        } else {
+                            console.error("Flight data not found.");
+                        }
+                    });
+                    </script>
+                </div>
+                <div class="passenger_info_content_form_bag">
+                    <p class="passenger_info_content_form_bag_title">Bag information</p>
+                    <div class="passenger_info_content_form_bag_subtitle">Each passenger is allowed one free carry-on bag and one personal item. First checked bag for each passenger is also free. Second bag check fees are waived for loyalty program members. See the<a href="">full bag policy.</a></div>
+                </div>
+                <div class="passenger_info_content_form_addbag">
+                    <div class="passenger_info_content_form_addbag_grid">
+                        <div class="passenger_info_content_form_addbag_grid_obj passenger_info_content_form_addbag_grid_obj_title">Passenger 1</div>
+                        <div class="passenger_info_content_form_addbag_grid_obj passenger_info_content_form_addbag_grid_obj_title">Checked bags</div>
+                        <div class="passenger_info_content_form_addbag_grid_obj passenger_info_content_form_addbag_grid_obj_subtitle">First Last</div>
+                        <div class="passenger_info_content_form_addbag_grid_obj passenger_info_content_form_addbag_grid_obj_pm">
+                            <img class="passenger_info_content_form_addbag_grid_obj_pm_minus" id="passenger_info_content_form_addbag_grid_obj_pm_minus" src="{%static 'main/img/minus2.svg'%}">
+                            <input type="text" name="bag" id="bag" value="{{passenger.bag}}">
+                            <img class="passenger_info_content_form_addbag_grid_obj_pm_plus" id="passenger_info_content_form_addbag_grid_obj_pm_plus" src="{%static 'main/img/plus2.svg'%}">
+                        </div>
                         <script>
-                            const dateInput = document.getElementById('birthday');
-                            // Функция для форматирования ввода даты вручную
-                            dateInput.addEventListener('input', function (e) {
-                                let value = e.target.value.replace(/\D/g, ''); // Удалить все нецифровые символы
-                                let formattedValue = '';
-                                if (value.length > 0) {
-                                    formattedValue += value.substring(0, 4); // Год
-                                    if (value.length > 4) {
-                                        formattedValue += '-' + value.substring(4, 6); // Месяц
-                                    }
-                                    if (value.length > 6) {
-                                        formattedValue += '-' + value.substring(6, 8); // День
-                                    }
+                            const minus = document.getElementById('passenger_info_content_form_addbag_grid_obj_pm_minus');
+                            const plus = document.getElementById('passenger_info_content_form_addbag_grid_obj_pm_plus');
+                            const bagInput = document.getElementById('bag');
+                        
+                            minus.addEventListener('click', function(){
+                                let bag = parseInt(bagInput.value) || 0; // Получаем текущее значение и преобразуем в число
+                                if (bag > 0){
+                                    bag -= 1; // Уменьшаем количество
+                                } else {
+                                    console.log('Cannot go below zero');
                                 }
-                                e.target.value = formattedValue;
+                                bagInput.value = bag; // Обновляем значение в поле
                             });
-                            const calendarIcon = document.getElementById('birthday');
-                            const flatpickrInstance = flatpickr(dateInput, {
-                                dateFormat: "Y-m-d", // Формат даты
-                                allowInput: true
-                            });
-                            calendarIcon.addEventListener('click', function() {
-                                flatpickrInstance.open(); // Открытие календаря
+                        
+                            plus.addEventListener('click', function(){
+                                let bag = parseInt(bagInput.value) || 0; // Получаем текущее значение и преобразуем в число
+                                bag += 1; // Увеличиваем количество
+                                bagInput.value = bag; // Обновляем значение в поле
                             });
                         </script>
                     </div>
                 </div>
-                <div class="passenger_info_content_form_adult_grid2">
-                    <div class="passenger_info_content_form_adult_grid1_obj">
-                        <input type="text" id="email" name="email" placeholder="Email address*">
-                    </div>
-                    <div class="passenger_info_content_form_adult_grid1_obj">
-                        <input type="text" id="phone" name="phone" placeholder="Phone number*">
-                    </div>
-                    <div class="passenger_info_content_form_adult_grid1_obj">
-                        <input type="text" id="redress" name="redress" placeholder="Redress number">
-                    </div>
-                    <div class="passenger_info_content_form_adult_grid1_obj">
-                        <input type="text" id="travel" name="travel" placeholder="Knows travel number*">
-                    </div>
+                <div class="passenger_info_content_form_btn">
+                    <button class="btn flights_result_search_obj_list_button" type="submit">Save and close</button>
+                    {% if passenger.first_name != 'Unknown' and passenger.last_name != 'Unknown' and passenger.birthday != 'Unknown' and passenger.email != 'Unknown' and passenger.phone_number != 'Unknown' and passenger.travel_number != 'Unknown' and passenger.first_name_add != 'Unknown' and passenger.last_name_add != 'Unknown' and passenger.email_add != 'Unknown' and passenger.phone_number_add != 'Unknown' %}
+                        <a href="{%url 'seat'%}" class="btn passenger_info_content_form_btn_obj_full">Select seats</a>
+                    {% else %}
+                        <button class="btn passenger_info_content_form_btn_obj" id="passenger_info_content_form_btn_obj">Select seats</button>
+                    {% endif %}
                 </div>
-            </div>
-            <div class="passenger_info_content_form_emergency">
-                <p>Emergency contact information</p>
-                <div class="checkbox passenger_info_content_form_emergency_choose">
-                    <input type="checkbox">  
-                    <p>Same as Passenger 1</p>
-                </div>
-                <div class="passenger_info_content_form_adult_grid2">
-                    <div class="passenger_info_content_form_adult_grid1_obj">
-                        <input type="text" id="first_name" name="first_name" placeholder="First name*" value="{{passenger.first_name}}">
-                    </div>
-                    <div class="passenger_info_content_form_adult_grid1_obj">
-                        <input type="text" id="last_name" name="last_name" placeholder="Last name*" value="{{passenger.last_name}}">
-                    </div>
-                    <div class="passenger_info_content_form_adult_grid1_obj">
-                        <input type="text" id="email" name="email" placeholder="Email address*">
-                    </div>
-                    <div class="passenger_info_content_form_adult_grid1_obj">
-                        <input type="text" id="phone" name="phone" placeholder="Phone number*">
-                    </div>
-                </div>
-            </div>
-            <div class="passenger_info_content_form_bag">
-                <p class="passenger_info_content_form_bag_title">Bag information</p>
-                <p class="passenger_info_content_form_bag_subtitle">Each passenger is allowed one free carry-on bag and one personal item. First checked bag for each passenger is also free. Second bag check fees are waived for loyalty program members. See the <a href="">full bag policy.</a></p>
-            </div>
-            <div class="passenger_info_content_form_addbag">
-                <div class="passenger_info_content_form_addbag_grid">
-                    <div class="passenger_info_content_form_addbag_grid_obj passenger_info_content_form_addbag_grid_obj_title">Passenger 1</div>
-                    <div class="passenger_info_content_form_addbag_grid_obj passenger_info_content_form_addbag_grid_obj_title">Checked bags</div>
-                    <div class="passenger_info_content_form_addbag_grid_obj passenger_info_content_form_addbag_grid_obj_subtitle">First Last</div>
-                    <div class="passenger_info_content_form_addbag_grid_obj passenger_info_content_form_addbag_grid_obj_subtitle">1</div>
-                </div>
-            </div>
-            <div class="passenger_info_content_form_btn">
-                <button class="btn flights_result_search_obj_list_button">Save and close</button>
-                <button class="btn passenger_info_content_form_btn_obj">Select seats</button>
-            </div>
+            </form>
         </div>
         <div class="passenger_info_content_flight">
             <div class="passenger_info_content_flight_info">
@@ -144,7 +224,11 @@
                         </div>
                     </div>
                     <div class="passenger_info_content_form_btn passenger_info_content_flight_info_btn">
-                        <button class="btn passenger_info_content_form_btn_obj">Select seats</button>
+                        {% if passenger.first_name != 'Unknown' and passenger.last_name != 'Unknown' and passenger.birthday != 'Unknown' and passenger.email != 'Unknown' and passenger.phone_number != 'Unknown' and passenger.travel_number != 'Unknown' and passenger.first_name_add != 'Unknown' and passenger.last_name_add != 'Unknown' and passenger.email_add != 'Unknown' and passenger.phone_number_add != 'Unknown' %}
+                            <a href="{%url 'seat'%}" class="btn passenger_info_content_form_btn_obj_full">Select seats</a>
+                        {% else %}
+                            <button class="btn passenger_info_content_form_btn_obj" id="passenger_info_content_form_btn_obj">Select seats</button>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -152,6 +236,41 @@
                 <img src="{%static 'main/img/bag.svg'%}">
             </div>
         </div>
+        <script>
+            document.getElementById('passenger_info_content_form_btn_obj').addEventListener('click', function(event) {
+                event.preventDefault(); // Остановить отправку формы
+                alert('Please fill out the entire form before proceeding.');
+            });
+        </script>
+        <script>
+            document.getElementById('passengerForm').addEventListener('submit', function(event) {
+                event.preventDefault();  // Останавливаем стандартное поведение отправки формы
+                const form = this;
+        
+                // Отправляем форму через AJAX
+                const xhr = new XMLHttpRequest();
+                xhr.open(form.method, form.action, true);
+                xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 400) {
+                        // Если форма отправлена успешно, перезагружаем страницу
+                        window.location.reload();
+                    } else {
+                        // Обработка ошибки
+                        alert('Ошибка отправки формы');
+                    }
+                };
+        
+                xhr.onerror = function() {
+                    // Обработка ошибки
+                    alert('Ошибка соединения');
+                };
+        
+                // Отправляем данные формы
+                xhr.send(new FormData(form));
+            });
+        </script>
     </div>
 </div>
 <footer class="footer_flights">

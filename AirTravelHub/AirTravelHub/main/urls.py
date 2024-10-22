@@ -11,5 +11,6 @@ urlpatterns = [
     path('document_redact', views.document_redact, name='document_redact'),
     path('autocomplete/country/', views.country_autocomplete, name='country_autocomplete'),
     path('activate/<uidb64>/<token>/', views.activate_account, name='activate'),
-    path('passenger_info', views.passenger_info, name='passenger_info')
+    path('passenger_info', views.passenger_info, name='passenger_info'),
+    path('seat', views.seat, name='seat'),
 ]

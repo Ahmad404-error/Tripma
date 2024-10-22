@@ -247,15 +247,9 @@ select{
     transition-duration: 250ms;
 }
 
-.btn:hover {
-    transform: translateY(-4px); /* Поднимает кнопку на 5px */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Добавляет тень */
+.btn:hover {    
+    background: rgba(21, 19, 160, 1);
 }   
-
-.btn:active {
-    transform: translateY(1px); /* Опускает кнопку на 1px при нажатии */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Снижает тень при нажатии */
-}
 
 .bg_map{
     z-index: -2;

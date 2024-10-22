@@ -23,6 +23,7 @@ from AirTravelHub.settings import DEFAULT_FROM_EMAIL
 from django.contrib import messages
 
 
+
 def index(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -113,23 +114,56 @@ def document_redact(request):
         last_name = request.POST.get('last_name')
         passport_number = request.POST.get('passport_number')
         birthday = request.POST.get('birthday')
+
+        middle = request.POST.get('middle')
+        suffix = request.POST.get('suffix')
+        phone_number = request.POST.get('phone_number')
+        redress_number = request.POST.get('redress_number')
+        travel_number = request.POST.get('travel_number')
+        bag = request.POST.get('bag')
+        email = request.POST.get('email')
+
+        first_name_add = request.POST.get('first_name_add')
+        last_name_add = request.POST.get('last_name_add')
+        email_add = request.POST.get('email_add')
+        phone_number_add = request.POST.get('phone_number_add')
+        
         passenger = Passenger.objects.get(user = request.user)
         if gender:
             passenger.gender = gender
-        if citizenship:
+        if citizenship or citizenship=='':
             passenger.citizenship = citizenship
         if first_name:
             passenger.first_name = first_name
         if last_name:
-            passenger.last_name = last_name
-        if passport_number:
+            passenger.last_name == last_name
+        if passport_number or passport_number=='':
             passenger.passport_number = passport_number
-        if birthday:
+        if birthday or birthday =='':
             passenger.birthday = birthday
+        if middle or middle == '':
+            passenger.middle = middle
+        if suffix or suffix=='':
+            passenger.suffix = suffix
+        if phone_number:
+            passenger.phone_number = phone_number
+        if redress_number or redress_number=='':
+            passenger.redress_number = redress_number
+        if travel_number:
+            passenger.travel_number = travel_number
+        if bag or bag =='':
+            passenger.bag = bag
+        if email:
+            passenger.email = email
+        if first_name_add:
+            passenger.first_name_add = first_name_add
+        if last_name_add:
+            passenger.last_name_add = last_name_add
+        if email_add:
+            passenger.email_add = email_add
+        if phone_number_add:
+            passenger.phone_number_add = phone_number_add
         passenger.save()
-
-
-
         return redirect('home')  # Перенаправляем на страницу успеха
 
     else:
@@ -187,6 +221,7 @@ def send_confirmation_email(request, user):
     send_mail(subject, message, DEFAULT_FROM_EMAIL , [user.email])
 
 
+
 def passenger_info(request):
     # print(request.GET.get('flightNumber'))
     flight_number = request.GET.get('flightNumber')
@@ -197,4 +232,30 @@ def passenger_info(request):
     arrivalTime = request.GET.get('arrivalTime')
     price = request.GET.get('price')
     total = request.GET.get('total')
-    return render(request, 'main/passenger_info.html', {'flight_number': flight_number, 'logo': logo, 'airline': airline, 'departureDate': departureDate, 'departureTime': departureTime, 'arrivalTime': arrivalTime, 'price': price, 'total': total})
+    user = request.user
+    first_name = request.POST.get('first_name')
+    last_name = request.POST.get('last_name')
+    birthday = request.POST.get('birthday')
+    passenger = Passenger.objects.get(user = request.user)
+    email = user.email
+    phone_number = request.POST.get('phone_number')
+    middle = request.POST.get('middle')
+    suffix = request.POST.get('suffix')
+    redress_number = request.POST.get('redress_number')
+    travel_number = request.POST.get('travel_number')
+    bag = request.POST.get('bag')
+    first_name_add = request.POST.get('first_name_add')
+    last_name_add = request.POST.get('last_name_add')
+    email_add = request.POST.get('email_add')
+    phone_number_add = request.POST.get('phone_number_add')
+    return render(request, 'main/passenger_info.html', {'flight_number': flight_number, 'logo': logo, 'airline': airline,
+                                                         'departureDate': departureDate, 'departureTime': departureTime, 
+                                                         'arrivalTime': arrivalTime, 'price': price, 'total': total,
+                                                         'first_name': first_name, 'last_name': last_name, 'birthday': birthday,
+                                                         'passenger': passenger, 'email': email, 'phone_number': phone_number, 'middle': middle, 'suffix': suffix, 
+                                                         'redress_number': redress_number, 'travel_number': travel_number, 'bag': bag, 'first_name_add': first_name_add,
+                                                         'last_name_add':last_name_add, 'email_add': email_add, 'phone_number_add': phone_number_add})
+
+
+def seat(request):
+    return render(request, 'main/seat.html')

@@ -38,13 +38,26 @@ class Passenger(models.Model):
         ('Male', 'Male'),
         ('Female', 'Female'),
     ]
-    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default='Unknown') 
-    citizenship = models.CharField(max_length=100, default='Unknown') 
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES, default='Gender') 
+    citizenship = models.CharField(max_length=100, default='citizenship') 
     first_name = models.CharField(max_length=100)  # Имя
     last_name = models.CharField(max_length=100)  # Фамилия
-    # email = models.EmailField()  # Электронная почта
     passport_number = models.CharField(max_length=20)  # Номер паспорта
     birthday = models.CharField(max_length=10)  # Дата рождения
+
+    email = models.EmailField(default='Unknown')  # Электронная почта
+    phone_number = models.CharField(max_length=16, default='Unknown')
+    middle = models.CharField(max_length=100, default='Unknown')
+    suffix = models.CharField(max_length=100, default='Unknown')
+    redress_number = models.CharField(max_length=100, default='Unknown')
+    travel_number = models.CharField(max_length=100, default='Unknown')
+    bag = models.CharField(max_length=100, default=0)
+
+    first_name_add = models.CharField(max_length=100, default='Unknown')  # Имя
+    last_name_add = models.CharField(max_length=100, default='Unknown')  # Фамилия
+    email_add = models.EmailField(default='Unknown')  # Электронная почта
+    phone_number_add = models.CharField(max_length=16, default='Unknown')
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -65,9 +78,9 @@ class Flight(models.Model):
     departure_airport = models.ForeignKey('Airport', on_delete=models.CASCADE, related_name='departing_flights')  # Аэропорт вылета
     arrival_airport = models.ForeignKey('Airport', on_delete=models.CASCADE, related_name='arriving_flights')  # Аэропорт прилета
     departure_date = models.DateField()  # Дата вылета
-    departure_time = models.TimeField()  # Время вылета
+    departure_time = models.TimeField(null=True)  # Время вылета
     arrival_date = models.DateField()  # Дата прилета
-    arrival_time = models.TimeField()  # Время прилета
+    arrival_time = models.TimeField(null=True)  # Время прилета
     aircraft = models.CharField(max_length=50)  # Тип самолёта (например, Boeing 737)
     duration = models.DurationField()  # Продолжительность полёта
     status = models.CharField(max_length=20, choices=[('Scheduled', 'Scheduled'), ('Delayed', 'Delayed'), ('Cancelled', 'Cancelled')])  # Статус рейса

@@ -35,7 +35,7 @@
     </div> -->    
 
     <div class="acc_det">
-        <form class="acc_det_form" method="POST" action="{%url 'document_redact'%}">
+        <form class="acc_det_form" method="POST" action="{%url 'document_redact'%}" id="passengerForm">
             {% csrf_token %}
             <div class="acc_det_title">
                 <p>Your Document</p>
@@ -121,6 +121,35 @@
                 </button>
             </div>
         </form>
+        <script>
+            document.getElementById('passengerForm').addEventListener('submit', function(event) {
+                event.preventDefault();  // Останавливаем стандартное поведение отправки формы
+                const form = this;
+        
+                // Отправляем форму через AJAX
+                const xhr = new XMLHttpRequest();
+                xhr.open(form.method, form.action, true);
+                xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+        
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 400) {
+                        // Если форма отправлена успешно, перезагружаем страницу
+                        window.location.reload();
+                    } else {
+                        // Обработка ошибки
+                        alert('Ошибка отправки формы');
+                    }
+                };
+        
+                xhr.onerror = function() {
+                    // Обработка ошибки
+                    alert('Ошибка соединения');
+                };
+        
+                // Отправляем данные формы
+                xhr.send(new FormData(form));
+            });
+        </script>
     </div>
 
 

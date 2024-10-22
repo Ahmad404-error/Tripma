@@ -21,6 +21,23 @@ input[type="checkbox"]:checked::before {
     text-align: center;
     line-height: 16px;
 }
+
+input{
+    text-transform: uppercase;
+}
+
+input::placeholder{
+    text-transform: none;
+}
+
+#email{
+    text-transform: none;
+}
+
+#email_add{
+    text-transform: none;
+}
+
 .checkbox{
     margin-bottom: 14px;
     display: flex;
@@ -119,7 +136,7 @@ input[type="checkbox"]:checked::before {
 .passenger_info_content_form{
     display: flex;
     flex-direction: column;
-    max-width: 45%;
+    max-width: 48%;
     padding: 16px;
 }
 .passenger_info_content_form_adult{
@@ -150,6 +167,12 @@ input[type="checkbox"]:checked::before {
     border-radius: 4px;
     border: 1px solid rgba(161, 176, 204, 1);
 }
+
+.passenger_info_content_form_adult_grid1_obj input{
+    display: flex;
+    width: 100%;
+}
+
 .passenger_info_content_form_adult_grid2{
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -209,10 +232,10 @@ input[type="checkbox"]:checked::before {
     font-size: 18px;
     font-weight: 400;
     line-height: 24.55px;
-    text-align: left;
     color: rgba(124, 141, 176, 1);
 }
 .passenger_info_content_form_bag_subtitle a{
+    margin-left: 4px;
     color: rgba(96, 93, 236, 1);
     transition-duration: 250ms;
 }
@@ -247,7 +270,30 @@ input[type="checkbox"]:checked::before {
     text-align: left;
     color: rgba(110, 116, 145, 1);
 }
-
+.passenger_info_content_form_addbag_grid_obj_pm{
+    display: flex;
+    width: min-content;
+    gap: 24px;
+    align-items: center;
+    transition-duration: 250ms;
+}
+.passenger_info_content_form_addbag_grid_obj_pm input{
+    width: 11px;
+}
+.passenger_info_content_form_addbag_grid_obj_pm img{
+    width: 16px;
+    height: 16px;
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0);
+}
+.passenger_info_content_form_addbag_grid_obj_pm img:hover{
+    background-color: rgba(233, 232, 252, 1);
+}
+.passenger_info_content_form_addbag_grid_obj_pm img:active{
+    background-color: rgba(233, 232, 252, 1);
+    border: 1px solid rgba(96, 93, 236, 1)
+}
 
 .passenger_info_content_form_btn{
     display: flex;
@@ -261,6 +307,11 @@ input[type="checkbox"]:checked::before {
     background: rgba(255, 255, 255, 1);
     border: 1px solid rgba(96, 93, 236, 1);
     color: rgba(96, 93, 236, 1);
+}
+.flights_result_search_obj_list_button:hover{
+    background: rgba(233, 232, 252, 1);
+    transform: none;
+    box-shadow: none;
 }
 .passenger_info_content_form_btn_obj{
     border: 1px solid rgba(124, 141, 176, 1);
@@ -370,4 +421,12 @@ input[type="checkbox"]:checked::before {
 }
 .passenger_info_content_form_btn_obj:hover{
     transform: translateY(0px);
+}
+.passenger_info_content_form_btn_obj_full{
+    padding: 12px 20px 12px 20px;
+    gap: 8px;
+    border-radius: 4px;
+    opacity: 0px;
+    background-color: rgba(96, 93, 236, 1);
+    color: rgba(250, 250, 250, 1);
 }

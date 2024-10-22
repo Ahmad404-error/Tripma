@@ -97,6 +97,10 @@ ul{
     color: rgba(96, 93, 236, 1);
 }
 
+.flights_result_search_obj_list_button:hover{
+    background: rgba(233, 232, 252, 1);
+}
+
 .flights_result_search_obj_img{
     grid-column: 1;
     grid-row: 2;
