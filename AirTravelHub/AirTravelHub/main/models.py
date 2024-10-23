@@ -53,10 +53,27 @@ class Passenger(models.Model):
     travel_number = models.CharField(max_length=100, default='Unknown')
     bag = models.CharField(max_length=100, default=0)
 
+    #Дополнительная информация
     first_name_add = models.CharField(max_length=100, default='Unknown')  # Имя
     last_name_add = models.CharField(max_length=100, default='Unknown')  # Фамилия
     email_add = models.EmailField(default='Unknown')  # Электронная почта
     phone_number_add = models.CharField(max_length=16, default='Unknown')
+
+    # Поля, связанные с рейсом
+    departure_airport = models.CharField(max_length=100, default='Unknown')
+    arrival_airport = models.CharField(max_length=100, default='Unknown')
+    departure_date = models.DateField(default="1000-01-01")  # Дата вылета
+    departure_time = models.TimeField(default="00:00:00")  # Время вылета
+    arrival_time = models.TimeField(default="00:00:00")  # Время прилета
+    logo = models.ImageField(upload_to='logos/', null=True, blank=True)  # Логотип авиакомпании
+    airline = models.CharField(max_length=100, default='Unknown')
+    flight = models.CharField(max_length=100, default='Unknown')
+
+    # Информация о цене
+    price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена за билет
+    total = models.DecimalField(max_digits=10, decimal_places=2)  # Общая стоимость
+    taxes = models.DecimalField(max_digits=10, decimal_places=2)
+
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 

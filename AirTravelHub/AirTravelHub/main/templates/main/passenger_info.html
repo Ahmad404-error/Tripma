@@ -18,7 +18,7 @@
             <form method="POST" action="{%url 'document_redact'%}" id="passengerForm">
                 {% csrf_token %}
                 <div class="passenger_info_content_form_adult">
-                    <label>Passenger (Adult)</label>
+                    <label>Passenger 1 (Adult)</label>
                     <div class="passenger_info_content_form_adult_grid1">
                         <div class="passenger_info_content_form_adult_grid1_obj">
                             <input type="text" id="first_name" name="first_name" placeholder="First name*" value="{% if passenger.first_name != 'Unknown' %}{{ passenger.first_name }}{% endif %}" required>
@@ -82,7 +82,7 @@
                     <p>Emergency contact information</p>
                     <div class="checkbox passenger_info_content_form_emergency_choose">
                         <input type="checkbox" id="checkbox">  
-                        <p>Same as Passenger</p>
+                        <p>Same as Passenger 1</p>
                     </div>
                     <div class="passenger_info_content_form_adult_grid2">
                         <div class="passenger_info_content_form_adult_grid1_obj">
