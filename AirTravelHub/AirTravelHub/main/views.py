@@ -223,7 +223,7 @@ def send_confirmation_email(request, user):
 
 
 def passenger_info(request):
-    # print(request.GET.get('flightNumber'))
+
     flight_number = request.GET.get('flightNumber')
     logo = request.GET.get('logo')
     airline = request.GET.get('airline')

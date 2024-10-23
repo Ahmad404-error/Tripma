@@ -18,7 +18,7 @@
             <form method="POST" action="{%url 'document_redact'%}" id="passengerForm">
                 {% csrf_token %}
                 <div class="passenger_info_content_form_adult">
-                    <label>Passenger 1 (Adult)</label>
+                    <label>Passenger (Adult)</label>
                     <div class="passenger_info_content_form_adult_grid1">
                         <div class="passenger_info_content_form_adult_grid1_obj">
                             <input type="text" id="first_name" name="first_name" placeholder="First name*" value="{% if passenger.first_name != 'Unknown' %}{{ passenger.first_name }}{% endif %}" required>
@@ -65,7 +65,7 @@
                     </div>
                     <div class="passenger_info_content_form_adult_grid2">
                         <div class="passenger_info_content_form_adult_grid1_obj">
-                            <input type="text" id="email" name="email" placeholder="Email address*" value="{% if email != 'Unknown' %}{{ email }}{% endif %}" required>
+                            <input type="text" id="email" name="email" placeholder="Email address*" value="{% if passenger.email != 'Unknown' %}{{ passenger.email }}{% endif %}" required>
                         </div>
                         <div class="passenger_info_content_form_adult_grid1_obj">
                             <input type="text" id="phone" name="phone_number" placeholder="Phone number*" value="{% if passenger.phone_number != 'Unknown' %}{{ passenger.phone_number }}{% endif %}" required>
@@ -82,7 +82,7 @@
                     <p>Emergency contact information</p>
                     <div class="checkbox passenger_info_content_form_emergency_choose">
                         <input type="checkbox" id="checkbox">  
-                        <p>Same as Passenger 1</p>
+                        <p>Same as Passenger</p>
                     </div>
                     <div class="passenger_info_content_form_adult_grid2">
                         <div class="passenger_info_content_form_adult_grid1_obj">
