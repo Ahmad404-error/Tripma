@@ -421,6 +421,8 @@ input::placeholder{
 }
 .passenger_info_content_form_btn_obj:hover{
     transform: translateY(0px);
+    background: rgba(203, 212, 230, 0.6);
+    border: 1px solid rgba(124, 141, 176, 1);
 }
 .passenger_info_content_form_btn_obj_full{
     padding: 12px 20px 12px 20px;

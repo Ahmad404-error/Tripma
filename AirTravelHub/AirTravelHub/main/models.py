@@ -62,17 +62,15 @@ class Passenger(models.Model):
     # Поля, связанные с рейсом
     departure_airport = models.CharField(max_length=100, default='Unknown')
     arrival_airport = models.CharField(max_length=100, default='Unknown')
-    departure_date = models.DateField(default="1000-01-01")  # Дата вылета
-    departure_time = models.TimeField(default="00:00:00")  # Время вылета
-    arrival_time = models.TimeField(default="00:00:00")  # Время прилета
-    logo = models.ImageField(upload_to='logos/', null=True, blank=True)  # Логотип авиакомпании
+    departure_date = models.CharField(max_length=20, default='1000-01-01')  # Дата вылета
+    departure_time = models.CharField(max_length=20, default='00:00:00')  # Время вылета
+    arrival_time = models.CharField(max_length=20, default='00:00:00')  # Время прилета
+    logo = models.CharField(max_length=100, default='Unknown')  # Логотип авиакомпании
     airline = models.CharField(max_length=100, default='Unknown')
     flight = models.CharField(max_length=100, default='Unknown')
-
-    # Информация о цене
-    price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена за билет
-    total = models.DecimalField(max_digits=10, decimal_places=2)  # Общая стоимость
-    taxes = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Цена за билет
+    total = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Общая стоимость
+    taxes = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)

@@ -18,7 +18,7 @@
             <form method="POST" action="{%url 'document_redact'%}" id="passengerForm">
                 {% csrf_token %}
                 <div class="passenger_info_content_form_adult">
-                    <label>Passenger 1 (Adult)</label>
+                    <label>Passenger (Adult)</label>
                     <div class="passenger_info_content_form_adult_grid1">
                         <div class="passenger_info_content_form_adult_grid1_obj">
                             <input type="text" id="first_name" name="first_name" placeholder="First name*" value="{% if passenger.first_name != 'Unknown' %}{{ passenger.first_name }}{% endif %}" required>
@@ -82,7 +82,7 @@
                     <p>Emergency contact information</p>
                     <div class="checkbox passenger_info_content_form_emergency_choose">
                         <input type="checkbox" id="checkbox">  
-                        <p>Same as Passenger 1</p>
+                        <p>Same as Passenger</p>
                     </div>
                     <div class="passenger_info_content_form_adult_grid2">
                         <div class="passenger_info_content_form_adult_grid1_obj">
@@ -184,10 +184,22 @@
                         </script>
                     </div>
                 </div>
+                <input type="hidden" id="departure_airport" name="departure_airport" value="{{departureAirport}}">
+                <input type="hidden" id="arrival_airport" name="arrival_airport" value="{{arrivalAirport}}">
+                <input type="hidden" id="departure_date" name="departure_date" value="{{departureDate}}">
+                <input type="hidden" id="departure_time" name="departure_time" value="{{departureTime}}">
+                <input type="hidden" id="arrival_time" name="arrival_time" value="{{arrivalTime}}">
+                <input type="hidden" id="airline" name="airline" value="{{ airline}}">
+                <input type="hidden" id="flight" name="flight" value="{{flightNumber}}">
+                <input type="hidden" id="taxes" name="taxes" value="{{taxes}}">
+                <input type="hidden" id="price" name="price" value="{{price}}">
+                <input type="hidden" id="total" name="total" value="{{total}}">
+                <input type="hidden" id="logo" name="logo" value="{{logo}}">
                 <div class="passenger_info_content_form_btn">
                     <button class="btn flights_result_search_obj_list_button" type="submit">Save and close</button>
-                    {% if passenger.first_name != 'Unknown' and passenger.last_name != 'Unknown' and passenger.birthday != 'Unknown' and passenger.email != 'Unknown' and passenger.phone_number != 'Unknown' and passenger.travel_number != 'Unknown' and passenger.first_name_add != 'Unknown' and passenger.last_name_add != 'Unknown' and passenger.email_add != 'Unknown' and passenger.phone_number_add != 'Unknown' %}
-                        <a href="{%url 'seat'%}" class="btn passenger_info_content_form_btn_obj_full">Select seats</a>
+                    {% if passenger.first_name != 'Unknown' and passenger.last_name != 'Unknown' and passenger.birthday != 'Unknown' and passenger.email != 'Unknown' and passenger.phone_number != 'Unknown' and passenger.travel_number != 'Unknown' and passenger.first_name_add != 'Unknown' and passenger.last_name_add != 'Unknown' and passenger.email_add != 'Unknown' and passenger.phone_number_add != 'Unknown' and passenger.flight == flightNumber%}
+
+                    <a href="{%url 'seat'%}" class="btn passenger_info_content_form_btn_obj_full">Select seats</a>
                     {% else %}
                         <button class="btn passenger_info_content_form_btn_obj" id="passenger_info_content_form_btn_obj">Select seats</button>
                     {% endif %}
@@ -203,7 +215,7 @@
                         </div>
                         <div class = 'flights_result_search_obj_choose_flight_name'>
                             <p class = 'flights_result_search_obj_choose_flight_name_title'>{{airline}}</p>
-                            <p class = 'flights_result_search_obj_choose_flight_name_subtitle'>{{flight_number}}</p>
+                            <p class = 'flights_result_search_obj_choose_flight_name_subtitle'>{{flightNumber}}</p>
                         </div>
                         
                         <div class = 'flights_result_search_obj_choose_flight_depar'>
@@ -224,10 +236,10 @@
                         </div>
                     </div>
                     <div class="passenger_info_content_form_btn passenger_info_content_flight_info_btn">
-                        {% if passenger.first_name != 'Unknown' and passenger.last_name != 'Unknown' and passenger.birthday != 'Unknown' and passenger.email != 'Unknown' and passenger.phone_number != 'Unknown' and passenger.travel_number != 'Unknown' and passenger.first_name_add != 'Unknown' and passenger.last_name_add != 'Unknown' and passenger.email_add != 'Unknown' and passenger.phone_number_add != 'Unknown' %}
+                        {% if passenger.first_name != 'Unknown' and passenger.last_name != 'Unknown' and passenger.birthday != 'Unknown' and passenger.email != 'Unknown' and passenger.phone_number != 'Unknown' and passenger.travel_number != 'Unknown' and passenger.first_name_add != 'Unknown' and passenger.last_name_add != 'Unknown' and passenger.email_add != 'Unknown' and passenger.phone_number_add != 'Unknown' and passenger.flight == flightNumber%}
                             <a href="{%url 'seat'%}" class="btn passenger_info_content_form_btn_obj_full">Select seats</a>
                         {% else %}
-                            <button class="btn passenger_info_content_form_btn_obj" id="passenger_info_content_form_btn_obj">Select seats</button>
+                            <button class="btn passenger_info_content_form_btn_obj" id="passenger_info_content_form_btn_obj1">Select seats</button>
                         {% endif %}
                     </div>
                 </div>
@@ -239,7 +251,10 @@
         <script>
             document.getElementById('passenger_info_content_form_btn_obj').addEventListener('click', function(event) {
                 event.preventDefault(); // Остановить отправку формы
-                alert('Please fill out the entire form before proceeding.');
+                alert('Please save your details to continue !');
+            });
+            document.getElementById('passenger_info_content_form_btn_obj1').addEventListener('click', function(event) {
+                alert('Please save your details to continue !');
             });
         </script>
         <script>

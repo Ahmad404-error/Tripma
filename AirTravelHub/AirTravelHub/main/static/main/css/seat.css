@@ -1,0 +1,115 @@
+body{
+    background: rgba(255, 255, 255, 1);
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito Sans', sans-serif;
+}
+body::-webkit-scrollbar{
+    width: 10px;
+}
+body::-webkit-scrollbar-thumb{
+    background: rgba(82, 82, 122, 0.2); /* Цвет ползунка */
+    border-radius: 8px;
+    transition-duration: 250ms;
+}
+body::-webkit-scrollbar-track{
+    display: none;
+}
+body::-webkit-scrollbar-thumb:hover{
+    background: rgba(82, 82, 122, 0.5);
+}
+a {
+    text-decoration: none;
+    color: inherit;
+ }
+p{
+    margin: 0;
+    padding: 0;
+}
+
+
+.bg{
+    display: flex;
+    min-width: 100%;
+}
+
+
+.header{
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    justify-content: left;
+    padding: 32px 0px 0px 28px;
+    min-width: 50%;
+}
+.header_menu_el{
+    position: absolute;
+    display: none;
+}
+.header_menu_el_obj{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 18px 28px;
+    background-color: rgba(245, 245, 245, 0.7);
+    border-radius: 12px;
+}
+.header_menu_el_obj a{
+    color: rgba(110, 116, 145, 1);
+    font-family: Nunito Sans;
+    font-size: 18px;
+    line-height: 24.55px;
+    text-align: left;
+}
+
+.info{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.info_header{
+    color: rgba(250, 250, 250, 1);
+    display: flex;
+    background-color: rgba(39, 39, 63, 1);
+}
+.info_header_content{
+    display: flex;
+    width: 100%;
+}
+.info_header_obj{
+    display: flex;
+    width: 100%;
+    padding: 23px 15px;
+    transition-duration: 250ms;
+    border-right: 1px solid rgba(110, 116, 145, 1);
+}
+.info_header_obj:hover{
+    background-color: rgba(96, 93, 236, 1);
+}
+.info_header_flight{
+    justify-content: space-between;
+}
+.info_header_flight_title{
+    font-family: Nunito Sans;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 32.74px;
+    text-align: left;
+}
+.info_header_flight_subtitle{
+    font-family: Nunito Sans;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16.37px;
+    text-align: left;
+    color: rgba(233, 232, 252, 1);
+}
+.info_header_flight_str{
+    display: flex;
+    align-items: center;
+}
+
+
+.info_header_obj_departing{
+    
+}

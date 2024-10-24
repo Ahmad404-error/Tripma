@@ -127,7 +127,19 @@ def document_redact(request):
         last_name_add = request.POST.get('last_name_add')
         email_add = request.POST.get('email_add')
         phone_number_add = request.POST.get('phone_number_add')
-        
+
+        departure = request.POST.get('departure_airport')
+        arrival = request.POST.get('arrival_airport')
+        departureDate = request.POST.get('departure_date')
+        departureTime = request.POST.get('departure_time')
+        arrivalTime = request.POST.get('arrival_time')
+        airline = request.POST.get('airline')
+        flight = request.POST.get('flight')
+        taxes = request.POST.get('taxes')
+        price = request.POST.get('price')
+        total = request.POST.get('total')
+        logo = request.POST.get('logo')
+
         passenger = Passenger.objects.get(user = request.user)
         if gender:
             passenger.gender = gender
@@ -136,7 +148,7 @@ def document_redact(request):
         if first_name:
             passenger.first_name = first_name
         if last_name:
-            passenger.last_name == last_name
+            passenger.last_name = last_name
         if passport_number or passport_number=='':
             passenger.passport_number = passport_number
         if birthday or birthday =='':
@@ -163,6 +175,29 @@ def document_redact(request):
             passenger.email_add = email_add
         if phone_number_add:
             passenger.phone_number_add = phone_number_add
+
+        if departure:
+            passenger.departure_airport = departure
+        if arrival:
+            passenger.arrival_airport = arrival
+        if departureDate:
+            passenger.departure_date = departureDate
+        if departureTime:
+            passenger.departure_time = departureTime
+        if arrivalTime:
+            passenger.arrival_time = arrivalTime
+        if airline:
+            passenger.airline = airline
+        if flight:
+            passenger.flight = flight
+        if taxes:
+            passenger.taxes = taxes
+        if price:
+            passenger.price = price
+        if total:
+            passenger.total = total
+        if logo:
+            passenger.logo = logo
         passenger.save()
         return redirect('home')  # Перенаправляем на страницу успеха
 
@@ -223,19 +258,23 @@ def send_confirmation_email(request, user):
 
 
 def passenger_info(request):
-
-    flight_number = request.GET.get('flightNumber')
+    flightNumber = request.GET.get('flightNumber')
+    departureAirport = request.GET.get('departureAirport')
+    arrivalAirport = request.GET.get('arrivalAirport')
     logo = request.GET.get('logo')
     airline = request.GET.get('airline')
     departureDate = request.GET.get('departureDate')
     departureTime = request.GET.get('departureTime')
     arrivalTime = request.GET.get('arrivalTime')
+    taxes = request.GET.get('taxes')
     price = request.GET.get('price')
     total = request.GET.get('total')
+
     user = request.user
     first_name = request.POST.get('first_name')
     last_name = request.POST.get('last_name')
     birthday = request.POST.get('birthday')
+
     passenger = Passenger.objects.get(user = request.user)
     email = user.email
     phone_number = request.POST.get('phone_number')
@@ -244,13 +283,15 @@ def passenger_info(request):
     redress_number = request.POST.get('redress_number')
     travel_number = request.POST.get('travel_number')
     bag = request.POST.get('bag')
+
     first_name_add = request.POST.get('first_name_add')
     last_name_add = request.POST.get('last_name_add')
     email_add = request.POST.get('email_add')
     phone_number_add = request.POST.get('phone_number_add')
-    return render(request, 'main/passenger_info.html', {'flight_number': flight_number, 'logo': logo, 'airline': airline,
-                                                         'departureDate': departureDate, 'departureTime': departureTime, 
-                                                         'arrivalTime': arrivalTime, 'price': price, 'total': total,
+
+    return render(request, 'main/passenger_info.html', {'flightNumber': flightNumber, 'logo': logo, 'airline': airline, 'departureAirport': departureAirport,
+                                                         'departureDate': departureDate, 'departureTime': departureTime, 'arrivalAirport': arrivalAirport,
+                                                         'arrivalTime': arrivalTime, 'price': price, 'total': total, 'taxes': taxes,
                                                          'first_name': first_name, 'last_name': last_name, 'birthday': birthday,
                                                          'passenger': passenger, 'email': email, 'phone_number': phone_number, 'middle': middle, 'suffix': suffix, 
                                                          'redress_number': redress_number, 'travel_number': travel_number, 'bag': bag, 'first_name_add': first_name_add,

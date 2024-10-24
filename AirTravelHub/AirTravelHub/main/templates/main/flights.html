@@ -286,13 +286,14 @@
                 const flightNumber = pole.getAttribute('data-number');
                 const flightData = pole.getAttribute('data-values'); // История цен
                 const airline = pole.getAttribute('data-airline'); // Авиакомпания
-                const departure = pole.getAttribute('data-departure'); // Аэропорт отправления
-                const arrival = pole.getAttribute('data-arrival'); // Аэропорт прибытия
+                const departureAirport = pole.getAttribute('data-departure'); // Аэропорт отправления
+                const arrivalAirport = pole.getAttribute('data-arrival'); // Аэропорт прибытия
                 const departureDate = pole.getAttribute('data-departure-date'); // Дата отправления
                 const departureTime = pole.getAttribute('data-departure-time'); // Время отправления
                 const arrivalTime = pole.getAttribute('data-arrival-time'); // Время прибытия
                 const price = parseFloat(pole.getAttribute('data-price'));
                 const total = Math.round(price + 121); 
+                const taxes = 121;
 
                 // Обновляем содержимое chooseFlightDiv
                 chooseFlightDiv.innerHTML = ''; // Очищаем предыдущее содержимое
@@ -300,14 +301,15 @@
                 <div class='flights_result_search_obj_choose_flight' id='flights_result_search_obj_choose_flight' 
                         data-number='${flightNumber}'
                         data-airline='${airline}'
-                        data-departure='${departure}'
-                        data-arrival='${arrival}'
+                        data-departure='${departureAirport}'
+                        data-arrival='${arrivalAirport}'
                         data-departure-date='${departureDate}'
                         data-departure-time='${departureTime}'
                         data-arrival-time='${arrivalTime}'
                         data-logo="${logo}"
                         data-price="${price}"
-                        data-total="${total}">
+                        data-total="${total}"
+                        data-taxes="${taxes}">
 
                     <div class = 'flights_result_search_obj_list_flight_pole_logo'>
                         <img src="${logo}" alt="${airline} логотип" style="width: 100px; height: auto;">
@@ -328,7 +330,7 @@
                         <p class="flights_result_search_obj_choose_total_subtotal_num">$${price}</p>
                     
                         <p class='flights_result_search_obj_choose_total_taxes'>Taxes and Fees:</p>
-                        <p class='flights_result_search_obj_choose_total_taxes_num'> $121</p>
+                        <p class='flights_result_search_obj_choose_total_taxes_num'> $${taxes}</p>
 
                         <p class='flights_result_search_obj_choose_total_resalt'>Total:</p>
                         <p class="flights_result_search_obj_choose_total_resalt_num">$${total}</p>
@@ -353,6 +355,8 @@
             // Формируем URL с параметрами
             const data = document.querySelector('.flights_result_search_obj_choose_flight');
             if (data) {
+                const departureAirport = data.getAttribute('data-departure');
+                const arrivalAirport = data.getAttribute('data-arrival');
                 const logo = data.getAttribute('data-logo'); // Логотип
                 const flightNumber = data.getAttribute('data-number');
                 const airline = data.getAttribute('data-airline'); // Авиакомпания
@@ -361,7 +365,8 @@
                 const arrivalTime = data.getAttribute('data-arrival-time'); // Время прибытия
                 const price = parseFloat(data.getAttribute('data-price'));
                 const total = Math.round(price + 121); 
-                const targetURL = `/passenger_info?flightNumber=${flightNumber}&logo=${logo}&airline=${airline}&departureDate=${departureDate}&departureTime=${departureTime}&arrivalTime=${arrivalTime}&price=${price}&total=${total}`;
+                const taxes =  data.getAttribute('data-taxes');
+                const targetURL = `/passenger_info?flightNumber=${flightNumber}&departureAirport=${departureAirport}&arrivalAirport=${arrivalAirport}&logo=${logo}&airline=${airline}&departureDate=${departureDate}&departureTime=${departureTime}&arrivalTime=${arrivalTime}&price=${price}&taxes=${taxes}&total=${total}`;
                 window.location.href = targetURL;
             } else {
                 console.error("Flight data not found.");
