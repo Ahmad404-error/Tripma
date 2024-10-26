@@ -15,6 +15,9 @@
 <body>
     <div class="container">
         <div class="bg">
+            <div class="plane">
+                <img src="{%static 'main/img/aircraft.svg'%}">
+            </div>
             <div class="header">
                 <div class="header_menu">
                     <div class="header_menu_icon" id="header_menu_icon">
@@ -41,7 +44,7 @@
                         <path d="M51.5 15C51.5 16.3807 50.3807 17.5 49 17.5C47.6193 17.5 46.5 16.3807 46.5 15C46.5 13.6193 47.6193 12.5 49 12.5C50.3807 12.5 51.5 13.6193 51.5 15Z" fill="#605DEC"/>
                         </svg>
                     </a>
-                </div>     
+                </div>   
             </div>
             <div class="info">
                 <header class="info_header">
@@ -60,18 +63,106 @@
                             </div>
                         </a>
                         <a href="" class="info_header_obj info_header_obj_departing">
-                            <div class="info_header_obj_flight_title">Feb 12 | 7:00AM</div>
-                            <div class="info_header_obj_flight_subtitle">Departing</div>
+                            <div class="info_header_flight_title info_header_obj_title">
+                                <p>Feb 12</p>7:00AM
+                            </div>
+                            <div class="info_header_flight_subtitle">Departing</div>
                         </a>
                     </div>
                 </header>
                 <main class="info_main">
-                    main
+                    <div class="info_main_class">
+                        <div class="info_main_class_el">
+                            <div class="info_main_class_el_img">
+                                <img src="{%static 'main/img/eco_seats.svg'%}">
+                            </div>
+                            <div class="info_main_class_el_txt">
+                                <div class="info_main_class_el_txt_name">
+                                    <div class="info_main_class_el_txt_name_title">
+                                        <p>Economy</p>
+                                        <p class="info_main_class_el_txt_name_title_add">Selected</p>
+                                    </div>
+                                    <p class="info_main_class_el_txt_name_subtitle">
+                                        Rest and recharge during your flight with extended leg room, personalized service, and a multi-course meal service
+                                    </p>
+                                </div>
+                                <div class="info_main_class_el_brd_blue"></div>
+                                <div class="info_main_class_el_txt_list">
+                                    <div>
+                                        <img src="{%static 'main/img/point.svg'%}">
+                                        <p>Built-in entertainment system</p>
+                                    </div>
+                                    <div>
+                                        <img src="{%static 'main/img/point.svg'%}">
+                                        <p>Complimentary snacks and drinks</p>
+                                    </div>
+                                    <div>
+                                        <img src="{%static 'main/img/point.svg'%}">
+                                        <p>One free carry-on and personal item</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info_main_class_el">
+                            <div class="info_main_class_el_img">
+                                <img src="{%static 'main/img/bis_seats.svg'%}">
+                            </div>
+                            <div class="info_main_class_el_txt">
+                                <div class="info_main_class_el_txt_name">
+                                    <div class="info_main_class_el_txt_name_title">
+                                        <p>Business class</p>
+                                    </div>
+                                    <p class="info_main_class_el_txt_name_subtitle">
+                                        Rest and recharge during your flight with extended leg room, personalized service, and a multi-course meal service
+                                    </p>
+                                </div>
+                                <div class="info_main_class_el_brd_green"></div>
+                                <div class="info_main_class_el_txt_list">
+                                    <div>
+                                        <img src="{%static 'main/img/es.svg'%}">
+                                        <p>Extended leg room</p>
+                                    </div>
+                                    <div>
+                                        <img src="{%static 'main/img/es.svg'%}">
+                                        <p>First two checked bags free</p>
+                                    </div>
+                                    <div>
+                                        <img src="{%static 'main/img/es.svg'%}">
+                                        <p>Priority boarding</p>
+                                    </div>
+                                    <div>
+                                        <img src="{%static 'main/img/es.svg'%}">
+                                        <p>Personalized service</p>
+                                    </div>
+                                    <div>
+                                        <img src="{%static 'main/img/es.svg'%}">
+                                        <p>Enhanced food and drink service</p>
+                                    </div>
+                                    <div>
+                                        <img src="{%static 'main/img/es.svg'%}">
+                                        <p>Seats that recline 40% more than economy</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </main>
                 <footer class="info_footer">
-                    footer
+                    <div class="info_footer_pass">
+                        <div class="info_footer_obj">
+                            <p>Passenger</p>
+                            Sofia Knowles
+                        </div>
+                        <div class="info_footer_obj">
+                            <p>Seat number</p>
+                            14A
+                        </div>
+                    </div>
+                    <div class="info_footer_button">
+                        <button class="btn flights_result_search_obj_list_button">Save and close</button>
+                        <button class="btn passenger_info_content_form_btn_obj_full">Next flihgt</button>
+                    </div>
                 </footer>
-
             </div>
         </div>
     </div>
