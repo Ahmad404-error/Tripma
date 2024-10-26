@@ -48,6 +48,8 @@ button, input[type="submit"], input[type="reset"] {
     height: 100vh;
     overflow: auto;
     justify-content: center;
+    overflow-x: hidden;
+    padding-right: 25%;
     left: -25%;
 }
 .plane img{
@@ -181,7 +183,8 @@ button, input[type="submit"], input[type="reset"] {
 
 .info_main{
     display: flex;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
     overflow: scroll;
     overflow-x: hidden; /* Скрыть горизонтальный ползунок */
 }
