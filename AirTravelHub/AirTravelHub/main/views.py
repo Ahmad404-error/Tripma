@@ -300,3 +300,6 @@ def passenger_info(request):
 
 def seat(request):
     return render(request, 'main/seat.html')
+
+def pay(request):
+    return render(request, 'main/pay.html')

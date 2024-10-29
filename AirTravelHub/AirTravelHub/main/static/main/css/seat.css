@@ -52,11 +52,9 @@ button, input[type="submit"], input[type="reset"] {
     padding-right: 25%;
     left: -25%;
 }
-.plane img{
-    width: 500%;
-    display: block;
-    height: 500vh;
-    left: 0;
+.plane svg{
+    transform: scale(2);
+    transform-origin: center;
 }
 .plane::-webkit-scrollbar{
     display: none;
@@ -69,6 +67,12 @@ button, input[type="submit"], input[type="reset"] {
 }
 .plane::-webkit-scrollbar-thumb:hover{
     display: none;
+}
+.place{
+    transition-duration: 250ms;
+}
+.place:hover{
+    filter: brightness(0.7);
 }
 
 
