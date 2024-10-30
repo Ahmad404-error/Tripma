@@ -102,7 +102,7 @@ class Flight(models.Model):
     price_history = models.JSONField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.airline.code} {self.flight_number} from {self.departure_airport} to {self.arrival_airport}"
+        return self.flight_number
 
 class FlightPrice(models.Model):
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE)  # Связь с рейсом
@@ -116,7 +116,7 @@ class FlightPrice(models.Model):
 class Ticket(models.Model):
     passenger = models.ForeignKey(Passenger, on_delete=models.CASCADE)  # Связь с пассажиром
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE)  # Связь с рейсом (Flight — это другая модель)
-    booking_date = models.DateTimeField(auto_now_add=True)  # Дата бронирования
+    booking_date = models.DateTimeField(auto_now_add=False)  # Дата бронирования
     ticket_number = models.CharField(max_length=50, unique=True)  # Уникальный номер билета
     seat_number = models.CharField(max_length=5)  # Номер места
     price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена билета

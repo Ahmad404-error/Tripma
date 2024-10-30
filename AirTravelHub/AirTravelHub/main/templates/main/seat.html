@@ -776,27 +776,6 @@
                         </linearGradient>
                     </defs>
                 </svg>
-                <script>
-                    // Получаем все элементы с классом 'place'
-                    const places = document.querySelectorAll('.place');
-
-                // Добавляем обработчик события для каждого элемента
-                    places.forEach(place => {
-                        place.addEventListener('click', function() {
-                            // console.log(`Clicked on ${this.id}`);       
-                            // Здесь можно добавить любой код, который вы хотите выполнить при нажатии
-                            if (this.getAttribute('fill') == 'url(#paint0_linear_9659_6413)'){
-                                this.setAttribute('fill', this.getAttribute('data-fill'));
-                                this.setAttribute('data-fill', '')
-                            }else{
-                                const fill = this.getAttribute('fill');
-                                this.setAttribute('data-fill', fill);
-                                const red = 'url(#paint0_linear_9659_6413)';
-                                this.setAttribute('fill', red);
-                            };
-                        });
-                    });
-                </script>
             </div>
             <div class="header">
                 <div class="header_menu">
@@ -927,21 +906,32 @@
                         </div>
                     </div>
                 </main>
-                <footer class="info_footer">
-                    <div class="info_footer_pass">
-                        <div class="info_footer_obj">
-                            <p>Passenger</p>
-                            Sofia Knowles
+                <footer>
+                    <form class="info_footer" method="POST" action="{%url 'ticket'%}">
+                        {% csrf_token %}
+                        <div class="info_footer_pass">
+                            <div class="info_footer_obj">
+                                <p>Passenger</p>
+                                {{passenger.first_name}} {{passenger.last_name}}
+                            </div>
+                            <div class="info_footer_obj">
+                                <p>Seat number</p>
+                                <div id="info_footer_obj_number" style="text-align: center;">---</div>
+                                <input type="text" id="seat_number" name="seat_number" required/>
+                                <input type="text" id="booking_date" name="booking_date" value="" required/>
+                                <input type="text" id="price" name="price" value="" required/>
+                                <input type="text" id="payment_status" name="payment_status" value="Pending" required/>
+                                <input type="text" id="ticket_status" name="ticket_status" value="Confirmed" required/>
+                                <input type="text" id="passenger" name="passenger" value="{{passenger.id}}" required/>
+                                <input type="text" id="flight" name="flight" value="{{passenger.flight}}" required/>
+                                <input type="text" id="ticket_number" name="ticket_number" value="1234" required/>
+                            </div>
                         </div>
-                        <div class="info_footer_obj">
-                            <p>Seat number</p>
-                            14A
+                        <div class="info_footer_button">
+                            <button class="btn flights_result_search_obj_list_button" type="submit">Save and close</button>
+                            <a href="{%url 'ticket'%}" class="btn passenger_info_content_form_btn_obj_full">Next flihgt</a>
                         </div>
-                    </div>
-                    <div class="info_footer_button">
-                        <button class="btn flights_result_search_obj_list_button">Save and close</button>
-                        <a href="{%url 'pay'%}"><button class="btn passenger_info_content_form_btn_obj_full">Next flihgt</button></a>
-                    </div>
+                    </form>
                 </footer>
             </div>
         </div>
@@ -965,5 +955,55 @@
                 headerElement.style.display = 'none'; // Закрываем меню, если клик вне его области
             }
         });
+        // Получаем все элементы с классом 'place'
+        const places = document.querySelectorAll('.place');
+        // Добавляем обработчик события для каждого элемента
+            places.forEach(place => {
+                place.addEventListener('click', function() {
+                    // console.log(`Clicked on ${this.id}`);    
+                    document.getElementById('info_footer_obj_number').innerHTML=`${this.id}`; 
+                    document.getElementById('seat_number').value = this.id;
+                    const today = new Date();
+                    const formattedDate = today.toISOString().split('T')[0]; // Приводим к формату YYYY-MM-DD
+                    document.getElementById('booking_date').value = formattedDate;
+                    // Здесь можно добавить любой код, который вы хотите выполнить при нажатии
+                    if (this.getAttribute('fill') == 'url(#paint0_linear_9659_6413)'){
+                        document.getElementById('info_footer_obj_number').innerHTML=`---`; 
+                        document.getElementById('seat_number').value = '';
+                        this.setAttribute('fill', this.getAttribute('data-fill'));
+                        this.setAttribute('data-fill', '');
+                        fetch('/api/passenger_data/')
+                        .then(response => response.json())
+                        .then(data => {
+                            // document.getElementById('price').value = parseFloat(data.price)+1
+                            // console.log(typeof(Float32Array(data.price)))
+                            if (this.getAttribute('data-seat')=='bus'){
+                                document.getElementById('price').value = '';
+                            }else{
+                                document.getElementById('price').value = '';
+                            };
+                        })
+                        .catch(error => console.error('Error:', error));
+                    }else{
+                        fetch('/api/passenger_data/')
+                        .then(response => response.json())
+                        .then(data => {
+                            // document.getElementById('price').value = parseFloat(data.price)+1
+                            // console.log(typeof(Float32Array(data.price)))
+                            if (this.getAttribute('data-seat')=='bus'){
+                                document.getElementById('price').value = Math.round(parseFloat(data.price)*3);
+                            }else{
+                                document.getElementById('price').value = parseFloat(data.price)
+                            };
+                        })
+                        .catch(error => console.error('Error:', error));
+                        const fill = this.getAttribute('fill');
+                        this.setAttribute('data-fill', fill);
+                        const red = 'url(#paint0_linear_9659_6413)';
+                        this.setAttribute('fill', red);
+                    };
+                });
+            });
+        
     </script>
 </body>

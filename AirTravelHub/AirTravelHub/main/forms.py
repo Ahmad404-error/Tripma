@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Passenger
+from .models import Passenger, Ticket
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
@@ -97,3 +97,9 @@ class PassengerForm(forms.ModelForm):
     class Meta():
         model = Passenger
         fields = ['gender', 'citizenship', 'first_name', 'last_name', 'passport_number', 'birthday']
+
+
+class TicketForm(forms.ModelForm):
+    class Meta():
+        model = Ticket
+        fields = ['passenger', 'flight', 'booking_date', 'ticket_number', 'seat_number', 'price', 'payment_status', 'ticket_status']

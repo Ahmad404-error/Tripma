@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from .forms import SignUpForm
 from .forms import PassengerForm
+from .forms import TicketForm
 from django.contrib.auth import login, get_user_model
 from .models import Flight
 from django.db.models import Q
 from django.http import JsonResponse
-from .models import Country, Passenger
+from .models import Country, Passenger, Ticket
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 
@@ -256,7 +257,6 @@ def send_confirmation_email(request, user):
     send_mail(subject, message, DEFAULT_FROM_EMAIL , [user.email])
 
 
-
 def passenger_info(request):
     flightNumber = request.GET.get('flightNumber')
     departureAirport = request.GET.get('departureAirport')
@@ -299,7 +299,70 @@ def passenger_info(request):
 
 
 def seat(request):
-    return render(request, 'main/seat.html')
+    passenger = Passenger.objects.get(user = request.user)
+    return render(request, 'main/seat.html', {'passenger': passenger})
 
-def pay(request):
-    return render(request, 'main/pay.html')
+def ticket(request):
+    # passenger = request.GET.get('passenger')
+    # flight = request.GET.get('flight')
+    # booking_date = request.GET.get('booking_date')
+    # ticket_number = request.GET.get('ticket_number')
+    # seat_number, = request.GET.get('seat_number')
+    # price = request.GET.get('price')
+    # payment_status = request.GET.get('payment_status')
+    # ticket_status = request.GET.get('ticket_status')
+    if request.method == 'POST':
+        form = TicketForm(request.POST)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.passenger = request.user
+            ticket.flight = Flight.objects.get(flight_number=request.POST.get('flight'))
+            ticket.save()
+            return redirect('ticket')  # Перенаправляем на страницу успеха
+        else:
+            print(form.errors)
+    else:
+        form = TicketForm()
+    return render(request, 'main/ticket.html', {'form': form})
+
+@login_required
+def passenger_data(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'error': 'User not authenticated'}, status=403)
+    else:
+        passenger = Passenger.objects.get(user = request.user)
+        passenger_data = {
+            'id': passenger.id,
+            'gender': passenger.gender,
+            'citizenship': passenger.citizenship,
+            'first_name': passenger.first_name,
+            'last_name': passenger.last_name,
+            'passport_number': passenger.passport_number,
+            'birthday': passenger.birthday,
+
+            'middle': passenger.middle,
+            'suffix': passenger.suffix,
+            'phone_number': passenger.phone_number,
+            'redress_number': passenger.redress_number,
+            'travel_number': passenger.travel_number,
+            'bag': passenger.bag,
+            'email': passenger.email,
+
+            'first_name_add': passenger.first_name_add,
+            'last_name_add': passenger.last_name_add,
+            'email_add': passenger.email_add,
+            'phone_number_add': passenger.phone_number_add,
+
+            'departure': passenger.departure_airport,
+            'arrival': passenger.arrival_airport,
+            'departureDate': passenger.departure_date,
+            'departureTime': passenger.departure_time,
+            'arrivalTime': passenger.arrival_time,
+            'airline': passenger.airline,
+            'flight': passenger.flight,
+            'taxes': passenger.taxes,
+            'price': passenger.price,
+            'total': passenger.total,
+            'logo': passenger.logo,
+        }
+        return JsonResponse(passenger_data)

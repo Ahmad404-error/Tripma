@@ -13,5 +13,6 @@ urlpatterns = [
     path('activate/<uidb64>/<token>/', views.activate_account, name='activate'),
     path('passenger_info', views.passenger_info, name='passenger_info'),
     path('seat', views.seat, name='seat'),
-    path('pay', views.pay, name='pay'),
+    path('ticket/', views.ticket, name='ticket'),
+    path('api/passenger_data/', views.passenger_data, name='passenger_data'),
 ]

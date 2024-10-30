@@ -39,4 +39,3 @@ class MyModelAdmin(admin.ModelAdmin):
 class MyModelAdmin(admin.ModelAdmin):
     list_display = ('flight', 'price')  # Определите, какие поля отображать в списке
 
-
