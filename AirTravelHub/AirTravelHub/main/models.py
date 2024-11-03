@@ -136,3 +136,13 @@ class Country(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Card(models.Model):
+    passenger = models.ForeignKey(Passenger, on_delete=models.CASCADE, default=1)
+    name =  models.CharField(max_length=100, unique=False)
+    number = models.CharField(max_length=16, unique=False)
+    date = models.CharField(max_length=5, unique=False)
+    ccv = models.CharField(max_length=3, unique=False)
+
+    def __str__(self):
+        return self.name

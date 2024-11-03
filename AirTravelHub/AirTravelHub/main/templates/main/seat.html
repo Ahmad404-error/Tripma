@@ -33,8 +33,8 @@
                     <rect class="place" id="1C" x="1236.5" y="630" width="30" height="40" rx="4" fill="url(#paint1_linear_879_1352)" data-seat="bus" data-fill=""/>
                     <rect class="place" id="1D" x="1275" y="630" width="30" height="40" rx="4" fill="url(#paint2_linear_879_1352)" data-seat="bus" data-fill=""/>
                     <rect width="200" height="48" transform="translate(1113 686)" fill="white"/>
-                    <rect class="place" id="2A" x="1121" y="690" width="30" height="40" rx="4" fill="url(#paint3_linear_879_1352)" d data-seat="bus" data-fill=""ata-seat="bus" data-fill=""/>
-                    <rect class="place" id="2B" x="1159.5" y="690" width="30" height="40" rx="4" fill="url(#paint4_linear_879_1352)"/>
+                    <rect class="place" id="2A" x="1121" y="690" width="30" height="40" rx="4" fill="url(#paint3_linear_879_1352)" d data-seat="bus" data-fill=""/>
+                    <rect class="place" id="2B" x="1159.5" y="690" width="30" height="40" rx="4" fill="url(#paint4_linear_879_1352)" data-seat="bus" data-fill=""/>
                     <path d="M1210.06 715V714.132L1213.44 710.492C1213.91 709.969 1214.25 709.493 1214.46 709.064C1214.67 708.635 1214.78 708.196 1214.78 707.748C1214.78 706.6 1214.11 706.026 1212.78 706.026C1211.78 706.026 1210.9 706.399 1210.13 707.146L1209.7 706.25C1210.06 705.877 1210.52 705.578 1211.08 705.354C1211.65 705.121 1212.25 705.004 1212.88 705.004C1213.87 705.004 1214.62 705.237 1215.14 705.704C1215.68 706.161 1215.94 706.815 1215.94 707.664C1215.94 708.252 1215.8 708.831 1215.51 709.4C1215.22 709.96 1214.78 710.557 1214.18 711.192L1211.53 714.02H1216.35V715H1210.06Z" fill="#7C8DB0"/>
                     <rect class="place" id="2C" x="1236.5" y="690" width="30" height="40" rx="4" fill="url(#paint1_linear_879_1352)" data-seat="bus" data-fill=""/>
                     <rect class="place" id="2D" x="1275" y="690" width="30" height="40" rx="4" fill="url(#paint1_linear_879_1352)" data-seat="bus" data-fill=""/>
@@ -921,7 +921,12 @@
                                 {{passenger.first_name}} {{passenger.last_name}}
                             </div>
                             <div class="info_footer_obj">
-                                <p>Seat number</p>
+                                
+                                {%if not error%}
+                                    <p>Seat number</p>
+                                {%else%}
+                                    <p style="color: rgb(201, 66, 66);">Seat Number</p>
+                                {%endif%}
                                 <div id="info_footer_obj_number" style="text-align: center;">---</div>
                                 <input type="hidden" id="seat_number" name="seat_number" required/>
                                 <input type="hidden" id="booking_date" name="booking_date" value="" required/>
@@ -1000,7 +1005,7 @@
                             // console.log(typeof(Float32Array(data.price)))
                             if (this.getAttribute('data-seat')=='bus'){
                                 document.getElementById('bus_selected').innerHTML=`<p class="info_main_class_el_txt_name_title_add_bus">Selected</p>`;
-                                document.getElementById('price').value = Math.round(parseFloat(data.price)*2.8);    
+                                document.getElementById('price').value = Math.round(parseFloat(data.price)*1.8);    
                             }else{
                                 document.getElementById('eco_selected').innerHTML='<p class="info_main_class_el_txt_name_title_add">Selected</p>';
                                 document.getElementById('price').value = parseFloat(data.price);

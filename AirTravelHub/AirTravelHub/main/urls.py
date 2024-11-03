@@ -15,4 +15,6 @@ urlpatterns = [
     path('seat', views.seat, name='seat'),
     path('payment/', views.payment, name='payment'),
     path('api/passenger_data/', views.passenger_data, name='passenger_data'),
+    path('success/', views.success, name='success'),
+    path('card/', views.card, name='card')
 ]

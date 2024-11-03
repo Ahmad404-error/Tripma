@@ -6,7 +6,7 @@ from django.contrib.auth import login, get_user_model
 from .models import Flight
 from django.db.models import Q
 from django.http import JsonResponse
-from .models import Country, Passenger, Ticket, Airport
+from .models import Country, Passenger, Ticket, Airport, Card
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 
@@ -326,15 +326,58 @@ def payment(request):
             ticket = form.save(commit=False)
             ticket.passenger = Passenger.objects.get(user=request.user)
             ticket.total = int(ticket.price) + 121
-            ticket.cls = round(int(ticket.price)-(int(ticket.price)/2.8), 2)
+            ticket.cls = round(int(ticket.price)-(int(ticket.price)/1.8), 2)
             passenger = Passenger.objects.get(user = request.user)
             ticket.save()
             return render(request, 'main/payment.html', {'form': form, 'ticket': ticket, 'passenger': passenger})
         else:
-            print(form.errors)
+            passenger = Passenger.objects.get(user = request.user)
+            error = str('Choose seat')
+            return render(request, 'main/seat.html', {'passenger': passenger, 'error': error})
     else:
         form = TicketForm()
     return render(request, 'main/home.html', {'form': form})
+
+def card(request):
+    if request.method == 'POST':
+        errors = {}
+        name = request.POST.get('name')
+        passenger = Passenger.objects.get(user=request.user)
+        number = request.POST.get('number')
+        date = request.POST.get('date')
+        ccv = request.POST.get('ccv')
+
+        if len(number) != 16 or not number.isdigit():
+            errors['number'] = "Card number must be 16 digits long."
+        if len(date) != 5 or date[2] != '/':
+            errors['date'] = "Expiration date must be in YY/MM format."
+        if len(ccv) != 3 or not ccv.isdigit():
+            errors['ccv'] = "CCV must be 3 digits long."
+
+        # Если есть ошибки, возвращаем на ту же страницу с ошибками
+        if errors:
+            ticket = Ticket.objects.filter(passenger__user=request.user).last()
+            if ticket:
+                ticket.total = int(ticket.price) + 121
+                ticket.cls = round(int(ticket.price) - (int(ticket.price) / 1.8), 2)
+            name = request.POST.get('name')
+            number = request.POST.get('number')
+            date = request.POST.get('date')
+            ccv = request.POST.get('ccv')
+            print(name, number, date, ccv)
+            return render(request, 'main/payment.html', {'errors': errors, 'passenger':passenger, 'ticket': ticket, 'name': name, 'number': number, 'date': date, 'ccv': ccv})
+        else:
+            card = Card(
+            passenger=passenger,
+            name=name, 
+            number=number, 
+            date=date, 
+            ccv=ccv)
+            card.save()
+            return redirect('success')  # Перенаправление на страницу успеха
+
+    return render(request, 'main/payment.html')  # Отображение страницы с формой
+
 
 @login_required
 def passenger_data(request):
@@ -377,3 +420,6 @@ def passenger_data(request):
             'logo': passenger.logo,
         }
         return JsonResponse(passenger_data)
+    
+def success(request):
+    return render(request, 'main/success.html')

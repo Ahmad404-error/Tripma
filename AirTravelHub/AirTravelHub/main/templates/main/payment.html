@@ -26,27 +26,37 @@
                     <button class="choose_payment_btn"><img class="icon" src="{%static 'main/img/crypto.svg'%}">Crypto</button>
                 </div>
             </div>
-            <div class="credit_card">
-                <p class="credit_card_title">Credit card details</p>
-                <div class="credit_card_data">
-                    <input type="text" class="credit_card_data_pole nameon" placeholder="Name on card">
-                    <input type="text" class="credit_card_data_pole number" placeholder="Card bumber">
-                    <input type="text" class="credit_card_data_pole expiration" placeholder="Expiration date">
-                    <input type="text" class="credit_card_data_pole ccv" placeholder="CCV">
+            <form class="pay_form" method="POST" action="{%url 'card'%}">
+                {% csrf_token %}
+                <div class="credit_card">
+                    <div class="credit_card_title">Credit card details</div>
+                    <div class="credit_card_data">
+                        <input type="text" class="credit_card_data_pole nameon" name="name" placeholder="Name on card" value="{{name}}" required/>
+                        <input type="text" class="credit_card_data_pole number" name="number" placeholder="Card bumber" value="{{number}}" required/>
+                        <input type="text" class="credit_card_data_pole expiration" name="date" placeholder="Expiration date" value="{{date}}" required/>
+                        <input type="text" class="credit_card_data_pole ccv" name="ccv" placeholder="CCV" value="{{ccv}}" required/>
+                    </div>
+                    {% if errors %}
+                        <div class="error-messages">
+                            {% for field, message in errors.items %}
+                                <div class="error">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
-            </div>
-            <div class="policy">
-                <p class="policy_title">
-                    Cancellation policy
-                </p>
-                <p class="policy_subtitle">
-                    This flight has a flexible cancellation policy. If you cancel or change your flight up to 30 days before the departure date, you are eligible for a free refund. All flights booked on Tripma are backed by our satisfaction guarantee, however cancellation policies vary by airline. See the full cancellation policy for this flight.
-                </p>
-            </div>
-            <div class="pay_btn">
-                <a href="{%url 'seat'%}" class="btn flights_result_search_obj_list_button">Back to sea select</a>
-                <button class="btn passenger_info_content_form_btn_obj">Confirm and pay</button>
-            </div>
+                <div class="policy">
+                    <div class="policy_title">
+                        Cancellation policy
+                    </div>
+                    <p class="policy_subtitle">
+                        This flight has a flexible cancellation policy. If you cancel or change your flight up to 30 days before the departure date, you are eligible for a free refund. All flights booked on Tripma are backed by our satisfaction guarantee, however cancellation policies vary by airline. See the full cancellation policy for this flight.
+                    </p>
+                </div>
+                <div class="pay_btn">
+                    <a href="{%url 'seat'%}" class="btn flights_result_search_obj_list_button">Back to sea select</a>
+                    <button class="btn passenger_info_content_form_btn_obj_full" type="submit">Confirm and pay</button>
+                </div>
+            </form>
         </div>
         <div class="passenger_info_content_flight_info">
             <div class="flights_result_search_obj_choose_flight_js" id="flights_result_search_obj_choose_flight_js">
@@ -82,13 +92,6 @@
                         <p class='flights_result_search_obj_choose_total_resalt'>Total:</p>
                         <p class="flights_result_search_obj_choose_total_resalt_num">${{ticket.total}}</p>
                     </div>
-                </div>
-                <div class="passenger_info_content_form_btn passenger_info_content_flight_info_btn">
-                    {% if passenger.first_name != 'Unknown' and passenger.last_name != 'Unknown' and passenger.birthday != 'Unknown' and passenger.email != 'Unknown' and passenger.phone_number != 'Unknown' and passenger.travel_number != 'Unknown' and passenger.first_name_add != 'Unknown' and passenger.last_name_add != 'Unknown' and passenger.email_add != 'Unknown' and passenger.phone_number_add != 'Unknown' and passenger.flight == flightNumber%}
-                        <a href="{%url 'seat'%}" class="btn passenger_info_content_form_btn_obj_full">Confirm and pay</a>
-                    {% else %}
-                        <button class="btn passenger_info_content_form_btn_obj" id="passenger_info_content_form_btn_obj1">Confirm and pay</button>
-                    {% endif %}
                 </div>
             </div>
         </div>
