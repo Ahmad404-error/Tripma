@@ -839,7 +839,10 @@
                                 <div class="info_main_class_el_txt_name">
                                     <div class="info_main_class_el_txt_name_title">
                                         <p>Economy</p>
-                                        <p class="info_main_class_el_txt_name_title_add">Selected</p>
+                                        <!-- <p class="info_main_class_el_txt_name_title_add">Selected</p> -->
+                                        <div id="eco_selected">
+                                        
+                                        </div>
                                     </div>
                                     <p class="info_main_class_el_txt_name_subtitle">
                                         Rest and recharge during your flight with extended leg room, personalized service, and a multi-course meal service
@@ -870,6 +873,9 @@
                                 <div class="info_main_class_el_txt_name">
                                     <div class="info_main_class_el_txt_name_title">
                                         <p>Business class</p>
+                                        <div id="bus_selected">
+
+                                        </div>
                                     </div>
                                     <p class="info_main_class_el_txt_name_subtitle">
                                         Rest and recharge during your flight with extended leg room, personalized service, and a multi-course meal service
@@ -968,6 +974,8 @@
                     document.getElementById('booking_date').value = formattedDate;
                     // Здесь можно добавить любой код, который вы хотите выполнить при нажатии
                     if (this.getAttribute('fill') == 'url(#paint0_linear_9659_6413)'){
+                        document.getElementById('eco_selected').innerHTML=''
+                        document.getElementById('bus_selected').innerHTML=''
                         document.getElementById('info_footer_obj_number').innerHTML=`---`; 
                         document.getElementById('seat_number').value = '';
                         this.setAttribute('fill', this.getAttribute('data-fill'));
@@ -991,9 +999,11 @@
                             // document.getElementById('price').value = parseFloat(data.price)+1
                             // console.log(typeof(Float32Array(data.price)))
                             if (this.getAttribute('data-seat')=='bus'){
-                                document.getElementById('price').value = Math.round(parseFloat(data.price)*2.8);
+                                document.getElementById('bus_selected').innerHTML=`<p class="info_main_class_el_txt_name_title_add_bus">Selected</p>`;
+                                document.getElementById('price').value = Math.round(parseFloat(data.price)*2.8);    
                             }else{
-                                document.getElementById('price').value = parseFloat(data.price)
+                                document.getElementById('eco_selected').innerHTML='<p class="info_main_class_el_txt_name_title_add">Selected</p>';
+                                document.getElementById('price').value = parseFloat(data.price);
                             };
                         })
                         .catch(error => console.error('Error:', error));
