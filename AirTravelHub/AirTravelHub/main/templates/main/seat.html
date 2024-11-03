@@ -810,15 +810,15 @@
                     <div class="info_header_content">
                         <a href="" class="info_header_obj info_header_flight">
                             <div>
-                                <div class="info_header_flight_title">SFO</div>
-                                <div class="info_header_flight_subtitle">California, US</div>
+                                <div class="info_header_flight_title">{{passenger.departure_airport}}</div>
+                                <div class="info_header_flight_subtitle">{{passenger.cityDeparture}}, {{passenger.countryDeparture}}</div>
                             </div>
                             <div class="info_header_flight_str">
                                 <img src="{%static 'main/img/strelka.svg'%}">
                             </div>
                             <div>
-                                <div class="info_header_flight_title">NRT</div>
-                                <div class="info_header_flight_subtitle">Tokyo, Japan</div>
+                                <div class="info_header_flight_title">{{passenger.arrival_airport}}</div>
+                                <div class="info_header_flight_subtitle">{{passenger.cityArrival}}, {{passenger.countryArrival}}</div>
                             </div>
                         </a>
                         <a href="" class="info_header_obj info_header_obj_departing">
@@ -907,7 +907,7 @@
                     </div>
                 </main>
                 <footer>
-                    <form class="info_footer" method="POST" action="{%url 'ticket'%}">
+                    <form class="info_footer" method="POST" action="{%url 'payment'%}">
                         {% csrf_token %}
                         <div class="info_footer_pass">
                             <div class="info_footer_obj">
@@ -917,19 +917,19 @@
                             <div class="info_footer_obj">
                                 <p>Seat number</p>
                                 <div id="info_footer_obj_number" style="text-align: center;">---</div>
-                                <input type="text" id="seat_number" name="seat_number" required/>
-                                <input type="text" id="booking_date" name="booking_date" value="" required/>
-                                <input type="text" id="price" name="price" value="" required/>
-                                <input type="text" id="payment_status" name="payment_status" value="Pending" required/>
-                                <input type="text" id="ticket_status" name="ticket_status" value="Confirmed" required/>
-                                <input type="text" id="passenger" name="passenger" value="{{passenger.id}}" required/>
-                                <input type="text" id="flight" name="flight" value="{{passenger.flight}}" required/>
-                                <input type="text" id="ticket_number" name="ticket_number" value="1234" required/>
+                                <input type="hidden" id="seat_number" name="seat_number" required/>
+                                <input type="hidden" id="booking_date" name="booking_date" value="" required/>
+                                <input type="hidden" id="price" name="price" value="" required/>
+                                <input type="hidden" id="payment_status" name="payment_status" value="Pending" required/>
+                                <input type="hidden" id="ticket_status" name="ticket_status" value="Confirmed" required/>
+                                <input type="hidden" id="passenger" name="passenger" value="{{passenger.id}}" required/>
+                                <input type="hidden" id="flight" name="flight" value="{{passenger.flight}}" required/>
+                                <input type="hidden" id="ticket_number" name="ticket_number" value="1234" required/>
                             </div>
                         </div>
                         <div class="info_footer_button">
-                            <button class="btn flights_result_search_obj_list_button" type="submit">Save and close</button>
-                            <a href="{%url 'ticket'%}" class="btn passenger_info_content_form_btn_obj_full">Next flihgt</a>
+                            <button class="btn flights_result_search_obj_list_button" type="submit">Paymet method</button>
+                            <!-- <a href="{%url 'payment'%}" class="btn passenger_info_content_form_btn_obj_full">Paymet methodt</a> -->
                         </div>
                     </form>
                 </footer>
@@ -991,7 +991,7 @@
                             // document.getElementById('price').value = parseFloat(data.price)+1
                             // console.log(typeof(Float32Array(data.price)))
                             if (this.getAttribute('data-seat')=='bus'){
-                                document.getElementById('price').value = Math.round(parseFloat(data.price)*3);
+                                document.getElementById('price').value = Math.round(parseFloat(data.price)*2.8);
                             }else{
                                 document.getElementById('price').value = parseFloat(data.price)
                             };

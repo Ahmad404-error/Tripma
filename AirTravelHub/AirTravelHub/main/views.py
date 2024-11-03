@@ -6,7 +6,7 @@ from django.contrib.auth import login, get_user_model
 from .models import Flight
 from django.db.models import Q
 from django.http import JsonResponse
-from .models import Country, Passenger, Ticket
+from .models import Country, Passenger, Ticket, Airport
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 
@@ -140,7 +140,10 @@ def document_redact(request):
         price = request.POST.get('price')
         total = request.POST.get('total')
         logo = request.POST.get('logo')
-
+        cityDeparture = request.POST.get('cityDeparture')
+        countryDeparture = request.POST.get('countryDeparture')
+        cityArrival = request.POST.get('cityArrival')
+        countryArrival = request.POST.get('countryArrival')
         passenger = Passenger.objects.get(user = request.user)
         if gender:
             passenger.gender = gender
@@ -199,6 +202,14 @@ def document_redact(request):
             passenger.total = total
         if logo:
             passenger.logo = logo
+        if cityDeparture:
+            passenger.cityDeparture = cityDeparture
+        if cityArrival:
+            passenger.cityArrival = cityArrival
+        if countryDeparture:
+            passenger.countryDeparture = countryDeparture
+        if countryArrival:
+            passenger.countryArrival = countryArrival
         passenger.save()
         return redirect('home')  # Перенаправляем на страницу успеха
 
@@ -289,41 +300,41 @@ def passenger_info(request):
     email_add = request.POST.get('email_add')
     phone_number_add = request.POST.get('phone_number_add')
 
+    cityDeparture = request.GET.get('cityDeparture')
+    cityArrival = request.GET.get('cityArrival')
+    countryDeparture = request.GET.get('countryDeparture')
+    countryArrival = request.GET.get('countryArrival')
     return render(request, 'main/passenger_info.html', {'flightNumber': flightNumber, 'logo': logo, 'airline': airline, 'departureAirport': departureAirport,
                                                          'departureDate': departureDate, 'departureTime': departureTime, 'arrivalAirport': arrivalAirport,
                                                          'arrivalTime': arrivalTime, 'price': price, 'total': total, 'taxes': taxes,
                                                          'first_name': first_name, 'last_name': last_name, 'birthday': birthday,
                                                          'passenger': passenger, 'email': email, 'phone_number': phone_number, 'middle': middle, 'suffix': suffix, 
                                                          'redress_number': redress_number, 'travel_number': travel_number, 'bag': bag, 'first_name_add': first_name_add,
-                                                         'last_name_add':last_name_add, 'email_add': email_add, 'phone_number_add': phone_number_add})
+                                                         'last_name_add':last_name_add, 'email_add': email_add, 'phone_number_add': phone_number_add,
+                                                         'cityDeparture':cityDeparture, 'cityArrival': cityArrival, 'countryDeparture': countryDeparture, 'countryArrival': countryArrival})
 
 
 def seat(request):
     passenger = Passenger.objects.get(user = request.user)
-    return render(request, 'main/seat.html', {'passenger': passenger})
+    airport = Airport.objects.all()
+    return render(request, 'main/seat.html', {'passenger': passenger, 'airport': {airport}})
 
-def ticket(request):
-    # passenger = request.GET.get('passenger')
-    # flight = request.GET.get('flight')
-    # booking_date = request.GET.get('booking_date')
-    # ticket_number = request.GET.get('ticket_number')
-    # seat_number, = request.GET.get('seat_number')
-    # price = request.GET.get('price')
-    # payment_status = request.GET.get('payment_status')
-    # ticket_status = request.GET.get('ticket_status')
+def payment(request):
     if request.method == 'POST':
         form = TicketForm(request.POST)
         if form.is_valid():
             ticket = form.save(commit=False)
-            ticket.passenger = request.user
-            ticket.flight = Flight.objects.get(flight_number=request.POST.get('flight'))
+            ticket.passenger = Passenger.objects.get(user=request.user)
+            ticket.total = int(ticket.price) + 121
+            ticket.cls = round(int(ticket.price)-(int(ticket.price)/2.8), 2)
+            passenger = Passenger.objects.get(user = request.user)
             ticket.save()
-            return redirect('ticket')  # Перенаправляем на страницу успеха
+            return render(request, 'main/payment.html', {'form': form, 'ticket': ticket, 'passenger': passenger})
         else:
             print(form.errors)
     else:
         form = TicketForm()
-    return render(request, 'main/ticket.html', {'form': form})
+    return render(request, 'main/home.html', {'form': form})
 
 @login_required
 def passenger_data(request):

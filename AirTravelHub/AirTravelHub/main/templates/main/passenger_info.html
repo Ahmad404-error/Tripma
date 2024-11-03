@@ -189,12 +189,18 @@
                 <input type="hidden" id="departure_date" name="departure_date" value="{{departureDate}}">
                 <input type="hidden" id="departure_time" name="departure_time" value="{{departureTime}}">
                 <input type="hidden" id="arrival_time" name="arrival_time" value="{{arrivalTime}}">
-                <input type="hidden" id="airline" name="airline" value="{{ airline}}">
+                <input type="hidden" id="airline" name="airline" value="{{airline}}">
                 <input type="hidden" id="flight" name="flight" value="{{flightNumber}}">
                 <input type="hidden" id="taxes" name="taxes" value="{{taxes}}">
                 <input type="hidden" id="price" name="price" value="{{price}}">
                 <input type="hidden" id="total" name="total" value="{{total}}">
                 <input type="hidden" id="logo" name="logo" value="{{logo}}">
+
+                <input type="hidden" id="city_departure" name="cityDeparture" value="{{cityDeparture}}">
+                <input type="hidden" id="city_arrival" name="cityArrival" value="{{cityArrival}}">
+                <input type="hidden" id="country_arrival" name="countryArrival" value="{{countryArrival}}">
+                <input type="hidden" id="country_departure" name="countryDeparture" value="{{countryDeparture}}">
+
                 <div class="passenger_info_content_form_btn">
                     <button class="btn flights_result_search_obj_list_button" type="submit">Save and close</button>
                     {% if passenger.first_name != 'Unknown' and passenger.last_name != 'Unknown' and passenger.birthday != 'Unknown' and passenger.email != 'Unknown' and passenger.phone_number != 'Unknown' and passenger.travel_number != 'Unknown' and passenger.first_name_add != 'Unknown' and passenger.last_name_add != 'Unknown' and passenger.email_add != 'Unknown' and passenger.phone_number_add != 'Unknown' and passenger.flight == flightNumber%}

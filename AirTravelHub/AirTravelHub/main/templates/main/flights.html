@@ -95,17 +95,23 @@
                 <ul>
                     {% for flight in flights %}
                         <div class="flights_result_search_obj_list_flight_pole" 
-                        data-number='{{flight.flight_number}}'
-                        data-values='{{flight.price_history}}' 
-                        data-airline='{{ flight.airline.name }}'
-                        data-departure='{{ flight.departure_airport.iata_code }}'
-                        data-arrival='{{ flight.arrival_airport.iata_code }}'
-                        data-departure-date='{{ flight.departure_date }}'
-                        data-departure-time='{{ flight.departure_time }}'
-                        data-arrival-time='{{ flight.arrival_time }}'
-                        data-logo="{% static 'main/img/' %}{{ flight.airline.code|lower }}.png"
-                        data-price="{% if flight.flightprice_set.exists %}{{ flight.flightprice_set.first.price }}{% else %}0{% endif %}"
-                        id="flights_result_search_obj_list_flight_pole">
+                            data-number='{{flight.flight_number}}'
+                            data-values='{{flight.price_history}}' 
+                            data-airline='{{ flight.airline.name }}'
+                            data-departure='{{ flight.departure_airport.iata_code }}'
+                            data-arrival='{{ flight.arrival_airport.iata_code }}'
+                            data-departure-date='{{ flight.departure_date }}'
+                            data-departure-time='{{ flight.departure_time }}'
+                            data-arrival-time='{{ flight.arrival_time }}'
+                            data-logo="{% static 'main/img/' %}{{ flight.airline.code|lower }}.png"
+
+                            data-city-departure="{{flight.departure_airport.city}}"
+                            data-city-arrival="{{flight.arrival_airport.city}}"
+                            data-country-arrival="{{flight.arrival_airport.country}}"
+                            data-country-departure="{{flight.departure_airport.country}}"
+                            
+                            data-price="{% if flight.flightprice_set.exists %}{{ flight.flightprice_set.first.price }}{% else %}0{% endif %}"
+                            id="flights_result_search_obj_list_flight_pole">
 
                             <div class="flights_result_search_obj_list_flight_pole_logo">
                                 {% if flight.airline.code == 'UZB' %}
@@ -291,6 +297,12 @@
                 const departureDate = pole.getAttribute('data-departure-date'); // Дата отправления
                 const departureTime = pole.getAttribute('data-departure-time'); // Время отправления
                 const arrivalTime = pole.getAttribute('data-arrival-time'); // Время прибытия
+                
+                const cityDeparture = pole.getAttribute('data-city-departure');
+                const cityArrival = pole.getAttribute('data-city-arrival');
+                const countryDeparture = pole.getAttribute('data-country-departure');
+                const countryArrival = pole.getAttribute('data-country-arrival');
+
                 const price = parseFloat(pole.getAttribute('data-price'));
                 const total = Math.round(price + 121); 
                 const taxes = 121;
@@ -309,7 +321,11 @@
                         data-logo="${logo}"
                         data-price="${price}"
                         data-total="${total}"
-                        data-taxes="${taxes}">
+                        data-taxes="${taxes}"
+                        data-city-departure="${cityDeparture}"
+                        data-city-arrival="${cityArrival}"
+                        data-country-arrival="${countryDeparture}"
+                        data-country-departure="${countryArrival}">
 
                     <div class = 'flights_result_search_obj_list_flight_pole_logo'>
                         <img src="${logo}" alt="${airline} логотип" style="width: 100px; height: auto;">
@@ -355,6 +371,10 @@
             // Формируем URL с параметрами
             const data = document.querySelector('.flights_result_search_obj_choose_flight');
             if (data) {
+                const cityDeparture = data.getAttribute('data-city-departure');
+                const cityArrival = data.getAttribute('data-city-arrival');
+                const countryDeparture = data.getAttribute('data-country-departure');
+                const countryArrival = data.getAttribute('data-country-arrival');
                 const departureAirport = data.getAttribute('data-departure');
                 const arrivalAirport = data.getAttribute('data-arrival');
                 const logo = data.getAttribute('data-logo'); // Логотип
@@ -366,7 +386,8 @@
                 const price = parseFloat(data.getAttribute('data-price'));
                 const total = Math.round(price + 121); 
                 const taxes =  data.getAttribute('data-taxes');
-                const targetURL = `/passenger_info?flightNumber=${flightNumber}&departureAirport=${departureAirport}&arrivalAirport=${arrivalAirport}&logo=${logo}&airline=${airline}&departureDate=${departureDate}&departureTime=${departureTime}&arrivalTime=${arrivalTime}&price=${price}&taxes=${taxes}&total=${total}`;
+                const targetURL = `/passenger_info?cityDeparture=${cityDeparture}&cityArrival=${cityArrival}&countryDeparture=${countryDeparture}&countryArrival=${countryArrival}&flightNumber=${flightNumber}&departureAirport=${departureAirport}&arrivalAirport=${arrivalAirport}&logo=${logo}&airline=${airline}&departureDate=${departureDate}&departureTime=${departureTime}&arrivalTime=${arrivalTime}&price=${price}&taxes=${taxes}&total=${total}`;
+                console.log(targetURL)
                 window.location.href = targetURL;
             } else {
                 console.error("Flight data not found.");

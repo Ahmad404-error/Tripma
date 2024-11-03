@@ -338,7 +338,7 @@ button, input[type="submit"], input[type="reset"] {
 .info_footer_button{
     display: flex;
     width: 100%;
-    justify-content: space-around;
+    justify-content: end;
     align-items: center;
 }
 .flights_result_search_obj_list_button{
