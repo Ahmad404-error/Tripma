@@ -71,9 +71,13 @@
                     
                         <p class='flights_result_search_obj_choose_total_taxes'>Taxes and Fees:</p>
                         <p class='flights_result_search_obj_choose_total_taxes_num'> $121</p>
-
-                        <p class='flights_result_search_obj_choose_total_class'>Class price:</p>
-                        <p class='flights_result_search_obj_choose_total_class_num'> ${{ticket.cls}}</p>
+                        {%if passenger.price != ticket.price%}
+                            <p class='flights_result_search_obj_choose_total_class'>Class price:</p>
+                            <p class='flights_result_search_obj_choose_total_class_num'> ${{ticket.cls}}</p>
+                        {%else%}
+                            <p class='flights_result_search_obj_choose_total_class'>Class price:</p>
+                            <p class='flights_result_search_obj_choose_total_class_num'> $0</p>
+                        {%endif%}
 
                         <p class='flights_result_search_obj_choose_total_resalt'>Total:</p>
                         <p class="flights_result_search_obj_choose_total_resalt_num">${{ticket.total}}</p>
