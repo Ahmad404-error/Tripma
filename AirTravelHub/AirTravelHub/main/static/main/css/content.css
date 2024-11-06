@@ -122,7 +122,6 @@ select{
     margin: 0 auto;
     margin-top: 96px;
     align-items: center;
-    border: 1px solid red;
 }
 
 .desktop_full{
@@ -132,7 +131,6 @@ select{
     left: 0px;
     top: 0px;
     min-width: 100%;
-    border: 1px solid black;
 }
 
 .desktop_full_content{
@@ -143,7 +141,7 @@ select{
     max-width: 1312px;
     justify-content: space-between;
     align-items: center;
-    border: 1px solid rgb(0, 255, 38);
+    background: rgba(255, 255, 255, 1);
 }
 
 .navigation_menu{

@@ -129,6 +129,9 @@
                                 {% if flight.airline.code == 'AFL'%}
                                     <img src="{%static 'main/img/AFL.png'%}">
                                 {%endif%}
+                                {% if flight.airline.code == 'UAL'%}
+                                    <img src="{%static 'main/img/UAL.png'%}">
+                                {%endif%}
                             </div>
                             <div class="flights_result_search_obj_list_flight_pole_cruize">
                                 <div>{{ flight.departure_airport.iata_code }} - {{ flight.arrival_airport.iata_code }}</div>
