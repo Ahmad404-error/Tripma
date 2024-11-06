@@ -123,6 +123,7 @@ class Ticket(models.Model):
     booking_date = models.DateTimeField(auto_now_add=False)  # Дата бронирования
     ticket_number = models.CharField(max_length=50, unique=False)  # Уникальный номер билета
     seat_number = models.CharField(max_length=5)  # Номер места
+    seat_class = models.CharField(max_length=10, default='None') #класс места 
     price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена билета
     payment_status = models.CharField(max_length=20, choices=[('Paid', 'Paid'), ('Pending', 'Pending')])  # Статус оплаты
     ticket_status = models.CharField(max_length=20, choices=[('Confirmed', 'Confirmed'), ('Cancelled', 'Cancelled')])  # Статус билета
@@ -146,3 +147,10 @@ class Card(models.Model):
 
     def __str__(self):
         return self.name
+
+class ShareEmail(models.Model):
+    passenger = models.ForeignKey(Passenger, on_delete=models.CASCADE, default=1)
+    email = models.JSONField(blank=True, default=list)
+
+    def __str__(self):
+        return f"{self.passenger} - {self.email}"

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Passenger, Airline, Flight, Airport, Ticket, FlightPrice, Country, Card
+from .models import Passenger, Airline, Flight, Airport, Ticket, FlightPrice, Country, Card, ShareEmail
 from .models import CustomUser
 
 admin.site.register(CustomUser)
@@ -42,4 +42,8 @@ class MyModelAdmin(admin.ModelAdmin):
 @admin.register(Card)
 class MyModelAdmin(admin.ModelAdmin):
     list_display = ('passenger', 'name', 'number', 'date', 'ccv')  # Определите, какие поля отображать в списке
+
+@admin.register(ShareEmail)
+class MyModelAdmin(admin.ModelAdmin):
+    list_display = ('passenger', 'email')  # Определите, какие поля отображать в списке
 

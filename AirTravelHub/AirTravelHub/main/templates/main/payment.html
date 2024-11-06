@@ -31,10 +31,10 @@
                 <div class="credit_card">
                     <div class="credit_card_title">Credit card details</div>
                     <div class="credit_card_data">
-                        <input type="text" class="credit_card_data_pole nameon" name="name" placeholder="Name on card" value="{{name}}" required/>
-                        <input type="text" class="credit_card_data_pole number" name="number" placeholder="Card bumber" value="{{number}}" required/>
-                        <input type="text" class="credit_card_data_pole expiration" name="date" placeholder="Expiration date" value="{{date}}" required/>
-                        <input type="text" class="credit_card_data_pole ccv" name="ccv" placeholder="CCV" value="{{ccv}}" required/>
+                        <input type="text" class="credit_card_data_pole nameon" name="name" placeholder="Name on card" value="{{card.name}}" required/>
+                        <input type="text" class="credit_card_data_pole number" name="number" placeholder="Card bumber" value="{{card.number}}" required/>
+                        <input type="text" class="credit_card_data_pole expiration" name="date" placeholder="Expiration date" value="{{card.date}}" required/>
+                        <input type="text" class="credit_card_data_pole ccv" name="ccv" placeholder="CCV" value="" required/>
                     </div>
                     {% if errors %}
                         <div class="error-messages">
@@ -80,7 +80,7 @@
                         <p class="flights_result_search_obj_choose_total_subtotal_num">${{passenger.price}}</p>
                     
                         <p class='flights_result_search_obj_choose_total_taxes'>Taxes and Fees:</p>
-                        <p class='flights_result_search_obj_choose_total_taxes_num'> $121</p>
+                        <p class='flights_result_search_obj_choose_total_taxes_num'> ${{passenger.taxes}}</p>
                         {%if passenger.price != ticket.price%}
                             <p class='flights_result_search_obj_choose_total_class'>Class price:</p>
                             <p class='flights_result_search_obj_choose_total_class_num'> ${{ticket.cls}}</p>

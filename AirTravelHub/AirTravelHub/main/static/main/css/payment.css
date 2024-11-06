@@ -159,6 +159,7 @@
 .number{
     grid-row: 2;
     grid-column: span 2;
+    color: rgb(88, 100, 126);
 }
 .expiration{
     grid-row: 3;

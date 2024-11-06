@@ -304,8 +304,8 @@
                 const countryArrival = pole.getAttribute('data-country-arrival');
 
                 const price = parseFloat(pole.getAttribute('data-price'));
-                const total = Math.round(price + 121); 
-                const taxes = 121;
+                const taxes = parseFloat((price * 0.092).toFixed(2)); // Округление до 2 знаков и приведение к числу
+                const total = (price + taxes).toFixed(2);
 
                 // Обновляем содержимое chooseFlightDiv
                 chooseFlightDiv.innerHTML = ''; // Очищаем предыдущее содержимое
@@ -384,8 +384,8 @@
                 const departureTime = data.getAttribute('data-departure-time'); // Время отправления
                 const arrivalTime = data.getAttribute('data-arrival-time'); // Время прибытия
                 const price = parseFloat(data.getAttribute('data-price'));
-                const total = Math.round(price + 121); 
-                const taxes =  data.getAttribute('data-taxes');
+                const taxes =  parseFloat(data.getAttribute('data-taxes'));
+                const total = (price + taxes).toFixed(2); 
                 const targetURL = `/passenger_info?cityDeparture=${cityDeparture}&cityArrival=${cityArrival}&countryDeparture=${countryDeparture}&countryArrival=${countryArrival}&flightNumber=${flightNumber}&departureAirport=${departureAirport}&arrivalAirport=${arrivalAirport}&logo=${logo}&airline=${airline}&departureDate=${departureDate}&departureTime=${departureTime}&arrivalTime=${arrivalTime}&price=${price}&taxes=${taxes}&total=${total}`;
                 console.log(targetURL)
                 window.location.href = targetURL;
@@ -405,21 +405,21 @@
         </div>
         <div class="cards">
             <div class="card">
-                <img src="{%static 'main/img/cards_8.jpg'%}">
+                <img src="{%static 'main/img/card_8.svg'%}">
                 <div class="card_data">
                     <div class="card_data_title"><a href=""> Hotel Kaneyamaen and Bessho SASA</a></div>
                 </div>
                 <div class="sub_card_data">Located at the base of Mount Fuji, Hotel Kaneyamaen is a traitional japanese ryokan with a modern twist. Enjoy a private onsen bath and a private multi-course kaiseki dinner.</div>
             </div>
             <div class="card">
-                <img src="{%static 'main/img/cards_9.jpg'%}">
+                <img src="{%static 'main/img/card_9.svg'%}">
                 <div class="card_data">
                     <div class="card_data_title"><a href=""> HOTEL THE FLAG 大阪市 </a></div>
                 </div>
                 <div class="sub_card_data">Make a stop in Osaka and stay at HOTEL THE FLAG, just a few minutes walk to experience the food culture surrounding Dontonbori. Just one minute away is the Shinsaibashi shopping street.</div>
             </div>
             <div class="card">
-                <img src="{%static 'main/img/cards_10.jpg'%}">
+                <img src="{%static 'main/img/card_10.svg'%}">
                 <div class="card_data">
                     <div class="card_data_title"><a href=""> 9 Hours Shinjuku</a></div>
                 </div>
@@ -438,7 +438,7 @@
         </div>
         <div class="cards">
             <div class="card">
-                <img src="{%static 'main/img/cards_11.jpg'%}">
+                <img src="{%static 'main/img/card_1.svg'%}">
                 <div class="card_data">
                     <div class="card_data_title card_data_title_chan">Shanqhai, <a href=""> Chine</a></div>
                 </div>
@@ -448,7 +448,7 @@
                 </div>
             </div>
             <div class="card">
-                <img src="{%static 'main/img/cards_12.jpg'%}">
+                <img src="{%static 'main/img/card_12.svg'%}">
                 <div class="card_data">
                     <div class="card_data_title card_data_title_chan">Nairobi, <a href=""> Kenya </a></div>
                 </div>
@@ -458,7 +458,7 @@
                 </div>
             </div>
             <div class="card">
-                <img src="{%static 'main/img/cards_13.jpg'%}">
+                <img src="{%static 'main/img/card_13.svg'%}">
                 <div class="card_data">
                     <div class="card_data_title card_data_title_chan"> Seoul, South <a href="">Korea</a></div>
                 </div>

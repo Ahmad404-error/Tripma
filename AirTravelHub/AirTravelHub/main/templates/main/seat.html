@@ -931,6 +931,7 @@
                                 <input type="hidden" id="seat_number" name="seat_number" required/>
                                 <input type="hidden" id="booking_date" name="booking_date" value="" required/>
                                 <input type="hidden" id="price" name="price" value="" required/>
+                                <input type="hidden" id="seat_class" name="seat_class" value="" required/>
                                 <input type="hidden" id="payment_status" name="payment_status" value="Pending" required/>
                                 <input type="hidden" id="ticket_status" name="ticket_status" value="Confirmed" required/>
                                 <input type="hidden" id="passenger" name="passenger" value="{{passenger.id}}" required/>
@@ -1005,8 +1006,10 @@
                             // console.log(typeof(Float32Array(data.price)))
                             if (this.getAttribute('data-seat')=='bus'){
                                 document.getElementById('bus_selected').innerHTML=`<p class="info_main_class_el_txt_name_title_add_bus">Selected</p>`;
-                                document.getElementById('price').value = Math.round(parseFloat(data.price)*1.8);    
+                                document.getElementById('price').value = Math.round(parseFloat(data.price)*1.8);  
+                                document.getElementById('seat_class').value = 'Business';
                             }else{
+                                document.getElementById('seat_class').value = 'Economy';
                                 document.getElementById('eco_selected').innerHTML='<p class="info_main_class_el_txt_name_title_add">Selected</p>';
                                 document.getElementById('price').value = parseFloat(data.price);
                             };

@@ -6,7 +6,7 @@ from django.contrib.auth import login, get_user_model
 from .models import Flight
 from django.db.models import Q
 from django.http import JsonResponse
-from .models import Country, Passenger, Ticket, Airport, Card
+from .models import Country, Passenger, Ticket, Airport, Card, ShareEmail
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 
@@ -325,11 +325,12 @@ def payment(request):
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.passenger = Passenger.objects.get(user=request.user)
-            ticket.total = int(ticket.price) + 121
+            card = Card.objects.filter(passenger__user=request.user).last()
+            ticket.total = round(float(ticket.price) + float(ticket.price)*0.092, 2)
             ticket.cls = round(int(ticket.price)-(int(ticket.price)/1.8), 2)
             passenger = Passenger.objects.get(user = request.user)
             ticket.save()
-            return render(request, 'main/payment.html', {'form': form, 'ticket': ticket, 'passenger': passenger})
+            return render(request, 'main/payment.html', {'form': form, 'ticket': ticket, 'passenger': passenger, 'card': card})
         else:
             passenger = Passenger.objects.get(user = request.user)
             error = str('Choose seat')
@@ -346,11 +347,12 @@ def card(request):
         number = request.POST.get('number')
         date = request.POST.get('date')
         ccv = request.POST.get('ccv')
+        card = Card.objects.filter(passenger__user=request.user).last()
 
         if len(number) != 16 or not number.isdigit():
             errors['number'] = "Card number must be 16 digits long."
         if len(date) != 5 or date[2] != '/':
-            errors['date'] = "Expiration date must be in YY/MM format."
+            errors['date'] = "Expiration date must be in MM/YY format."
         if len(ccv) != 3 or not ccv.isdigit():
             errors['ccv'] = "CCV must be 3 digits long."
 
@@ -358,22 +360,28 @@ def card(request):
         if errors:
             ticket = Ticket.objects.filter(passenger__user=request.user).last()
             if ticket:
-                ticket.total = int(ticket.price) + 121
+                ticket.total = round(float(ticket.price) + float(ticket.price)*0.092, 2)
                 ticket.cls = round(int(ticket.price) - (int(ticket.price) / 1.8), 2)
-            name = request.POST.get('name')
-            number = request.POST.get('number')
-            date = request.POST.get('date')
-            ccv = request.POST.get('ccv')
-            print(name, number, date, ccv)
-            return render(request, 'main/payment.html', {'errors': errors, 'passenger':passenger, 'ticket': ticket, 'name': name, 'number': number, 'date': date, 'ccv': ccv})
+            return render(request, 'main/payment.html', {'errors': errors, 'passenger':passenger, 'ticket': ticket, 'name': name, 'number': number, 'date': date, 'ccv': ccv, 'card': card})
         else:
-            card = Card(
-            passenger=passenger,
-            name=name, 
-            number=number, 
-            date=date, 
-            ccv=ccv)
-            card.save()
+            if card is None:
+                card = Card(
+                passenger=passenger,
+                name=name, 
+                number=number, 
+                date=date, 
+                ccv=ccv)
+                card.save()
+            else:
+                if name:
+                    card.name = name
+                if number:
+                    card.number = number
+                if date:
+                    card.date = date
+                if ccv:
+                    card.ccv = ccv
+                card.save()
             return redirect('success')  # Перенаправление на страницу успеха
 
     return render(request, 'main/payment.html')  # Отображение страницы с формой
@@ -421,5 +429,31 @@ def passenger_data(request):
         }
         return JsonResponse(passenger_data)
     
+def share_email(request):
+    if request.method == 'POST':
+        passenger = Passenger.objects.get(user=request.user)
+        email = ShareEmail.objects.filter(passenger__user=request.user).last()
+        email1 = request.POST.get('email1')
+        email2 = request.POST.get('email2')
+        email3 = request.POST.get('email3')
+        if email is None:
+            email = ShareEmail(passenger=passenger, email=[email1, email2, email3])
+            email.save()
+        else:
+            if email1:
+                email.email[0] = email1
+            if email2:
+                email.email[1] = email2
+            if email3:
+                email.email[2] = email3
+            email.save()
+        return redirect('success')
+    else:
+        return render(request, 'main/success.html')
+    
 def success(request):
-    return render(request, 'main/success.html')
+    passenger = Passenger.objects.get(user=request.user)
+    card = Card.objects.filter(passenger__user=request.user).last()
+    ticket = Ticket.objects.filter(passenger__user=request.user).last()
+    email = ShareEmail.objects.filter(passenger__user=request.user).last()
+    return render(request, 'main/success.html', {'passenger': passenger, 'card': card, 'ticket': ticket, 'email': email})

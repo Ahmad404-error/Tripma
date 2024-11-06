@@ -102,4 +102,4 @@ class PassengerForm(forms.ModelForm):
 class TicketForm(forms.ModelForm):
     class Meta():
         model = Ticket
-        fields = ['passenger', 'flight', 'booking_date', 'ticket_number', 'seat_number', 'price', 'payment_status', 'ticket_status']
+        fields = ['passenger', 'flight', 'booking_date', 'ticket_number', 'seat_number', 'price', 'payment_status', 'ticket_status', 'seat_class']

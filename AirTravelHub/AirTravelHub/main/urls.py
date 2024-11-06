@@ -16,5 +16,6 @@ urlpatterns = [
     path('payment/', views.payment, name='payment'),
     path('api/passenger_data/', views.passenger_data, name='passenger_data'),
     path('success/', views.success, name='success'),
-    path('card/', views.card, name='card')
+    path('card/', views.card, name='card'), 
+    path('share_email/', views.share_email, name='share_email'),
 ]
